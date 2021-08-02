@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../screens/auth_screen.dart';
+import './utils/app_routes.dart';
+import './screens/auth_screen.dart';
+import './screens/dashboard_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,6 +26,10 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       home: AuthScreen(),
+      routes: {
+        AppRoutes.AUTH: (ctx) => AuthScreen(),
+        AppRoutes.DASHBOARD: (ctx) => DashboardScreen()
+      },
     );
   }
 }
