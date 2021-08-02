@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:notebook/providers/user.dart';
+
 import 'package:notebook/utils/app_routes.dart';
+import 'package:provider/provider.dart';
 
 
 class AuthScreen extends StatefulWidget {
@@ -25,23 +25,17 @@ class _AuthScreenState extends State<AuthScreen> {
     }
     _form.currentState!.save();
 
-    final response = await http.post(
-      Uri.parse(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEOwKC9RRJMZ8HcbJpo0GY8OpavGS-Jmg'
-      ),
-      body: json.encode({
-        'email': _formData['email'],
-        'password': _formData['password'],
-        'returnSecureToken': true
-      })
-    );
+    Provider.of<User>(context, listen: false)
+        .login(_formData['email'], _formData['password']);
 
-    if (response.statusCode != 200) {
-      print(response.body);
-      return;
-    }
+    
 
-    print(response.body);
+    // if (response.statusCode != 200) {
+    //   print(response.body);
+    //   return;
+    // }
+
+    // print(response.body);
 
     Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
   }

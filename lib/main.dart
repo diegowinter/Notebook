@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/providers/user.dart';
+import 'package:provider/provider.dart';
 
 import './utils/app_routes.dart';
 import './screens/auth_screen.dart';
@@ -12,24 +14,31 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => new User(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Notebook',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          //primaryColor: Colors.green,
+          primarySwatch: Colors.green,
+          backgroundColor: Colors.black87
+        ),
+        themeMode: ThemeMode.dark,
+        debugShowCheckedModeBanner: false,
+        home: AuthScreen(),
+        routes: {
+          AppRoutes.AUTH: (ctx) => AuthScreen(),
+          AppRoutes.DASHBOARD: (ctx) => DashboardScreen()
+        },
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        //primaryColor: Colors.green,
-        primarySwatch: Colors.green,
-        backgroundColor: Colors.black87
-      ),
-      themeMode: ThemeMode.dark,
-      debugShowCheckedModeBanner: false,
-      home: AuthScreen(),
-      routes: {
-        AppRoutes.AUTH: (ctx) => AuthScreen(),
-        AppRoutes.DASHBOARD: (ctx) => DashboardScreen()
-      },
     );
   }
 }
