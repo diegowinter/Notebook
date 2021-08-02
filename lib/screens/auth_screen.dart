@@ -8,14 +8,74 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  GlobalKey<FormState> _form = GlobalKey();
+  Map<String, String> _formData = {
+    'email': '',
+    'password': ''
+  };
+
+  void _onSave() {
+    if (!_form.currentState!.validate()) {
+      return;
+    }
+
+    _form.currentState!.save();
+
+    print(_formData);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Notebook'),
-      ),
-      body: Center(
-        child: Text('Bem-vindo'),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Notebook',
+              style: TextStyle(
+                fontSize: 28
+              ),
+            ),
+            Form(
+              key: _form,
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'E-mail'
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (!value!.contains('@') || value.trim().isEmpty) {
+                        return 'Insira um e-mail válido!';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _formData['email'] = value!,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Senha'
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.trim().length < 6 || value.trim().isEmpty) {
+                        return 'A senha deve ter 6 ou mais caracteres.';
+                      }
+                    },
+                    onSaved: (value) => _formData['password'] = value!,
+                  )
+                ]
+              ),
+            ),
+            ElevatedButton(
+              child: Text('Entrar'),
+              onPressed: () => _onSave(),
+            )
+          ],
+        ),
       ),
     );
   }
