@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:notebook/utils/app_routes.dart';
+
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({ Key? key }) : super(key: key);
@@ -14,14 +19,31 @@ class _AuthScreenState extends State<AuthScreen> {
     'password': ''
   };
 
-  void _onSave() {
+  Future<void> _onSave() async {
     if (!_form.currentState!.validate()) {
       return;
     }
-
     _form.currentState!.save();
 
-    print(_formData);
+    final response = await http.post(
+      Uri.parse(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEOwKC9RRJMZ8HcbJpo0GY8OpavGS-Jmg'
+      ),
+      body: json.encode({
+        'email': _formData['email'],
+        'password': _formData['password'],
+        'returnSecureToken': true
+      })
+    );
+
+    if (response.statusCode != 200) {
+      print(response.body);
+      return;
+    }
+
+    print(response.body);
+
+    Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
   }
 
   @override
@@ -70,6 +92,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ]
               ),
             ),
+            SizedBox(height: 10),
             ElevatedButton(
               child: Text('Entrar'),
               onPressed: () => _onSave(),
