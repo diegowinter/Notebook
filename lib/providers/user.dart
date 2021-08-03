@@ -38,4 +38,16 @@ class User with ChangeNotifier{
   String get token {
     return _token;
   }
+
+  String get id {
+    return _id;
+  }
+
+  String get email {
+    return _email;
+  }
+
+  String get refreshToken {
+    return _refreshToken;
+  }
 }
