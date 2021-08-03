@@ -6,6 +6,7 @@ import './screens/auth_screen.dart';
 import './screens/dashboard_screen.dart';
 import './providers/collections.dart';
 import './providers/user.dart';
+import './providers/pages.dart';
 import './screens/collection_screen.dart';
 import './screens/page_composer_screen.dart';
 import './screens/page_viewer_screen.dart';
@@ -30,6 +31,14 @@ class MyApp extends StatelessWidget {
             user.id,
             previousCollections!.collections
           ) ,
+        ),
+        ChangeNotifierProxyProvider<User, Pages>(
+          create: (_) => new Pages('', '', []),
+          update: (ctx, user, previousPages) => new Pages(
+            user.id,
+            user.token,
+            previousPages!.pages
+          ),
         )
       ],
       child: MaterialApp(

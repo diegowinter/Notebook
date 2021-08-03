@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/providers/pages.dart';
 import 'package:notebook/utils/app_routes.dart';
+import 'package:provider/provider.dart';
 
 class PageComposerScreen extends StatelessWidget {
+  final _titleController = new TextEditingController();
   final _contentController = new TextEditingController();
 
   @override
@@ -19,6 +22,7 @@ class PageComposerScreen extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Título'
               ),
+              controller: _titleController,
             ),
             Expanded(
               child: TextField(
@@ -43,7 +47,9 @@ class PageComposerScreen extends StatelessWidget {
                 ),
                 TextButton(
                   child: Text('Salvar'),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await Provider.of<Pages>(context, listen: false).addPage('-Mg8joB-Y-UkOJDfxKA6', _titleController.text, _contentController.text);
+                  },
                 ),
               ],
             )
