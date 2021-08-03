@@ -25,7 +25,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
     _form.currentState!.save();
 
-    Provider.of<User>(context, listen: false)
+    await Provider.of<User>(context, listen: false)
         .login(_formData['email'], _formData['password']);
 
     

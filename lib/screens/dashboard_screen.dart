@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/user.dart';
 import 'package:provider/provider.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
+  @override
+  _DashboardScreenState createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  final _controller = new TextEditingController();
+
   _newCollectionModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -39,11 +47,12 @@ class DashboardScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Nome da coleção'
                         ),
+                        controller: _controller,
                       ),
                     ),
                     IconButton(
                       icon: Icon(Icons.check),
-                      onPressed: () {},
+                      onPressed: () => _addCollection(),
                     )
                   ],
                 )
@@ -55,6 +64,15 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _addCollection() async {
+    return Provider.of<Collections>(context, listen: false).addCollection(_controller.text);
+  }
+
+  Future<void> _refreshCollections() async {
+    return Provider.of<Collections>(context, listen: false).loadCollections();
+  }
+
+  late final Future _collections = Provider.of<Collections>(context, listen: false).loadCollections();
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +82,36 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Coleções'),
       ),
-      body: Center(
-        child: Text(user.token),
-      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _newCollectionModal(context),
+      ),
+      body: Center(
+        child: FutureBuilder(
+          future: _collections,
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.error != null) {
+              return Center(child: Text('Ocorreu um erro.'));
+            }
+            return Consumer<Collections>(
+              builder: (ctx, collections, child) {
+                return RefreshIndicator(
+                  onRefresh: () => _refreshCollections(),
+                  child: ListView.builder(
+                    itemCount: collections.itemsCount,
+                    itemBuilder: (ctx, index) => ListTile(
+                      title: Text(collections.collections[index].title),
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        )
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/user.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => new User(),
+        ),
+        ChangeNotifierProxyProvider<User, Collections>(
+          create: (_) => new Collections('', '', []),
+          update: (ctx, user, previousCollections) => new Collections(
+            user.token,
+            user.id,
+            previousCollections!.collections
+          ) ,
         )
       ],
       child: MaterialApp(
