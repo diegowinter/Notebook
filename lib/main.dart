@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/providers/collections.dart';
-import 'package:notebook/providers/user.dart';
 import 'package:provider/provider.dart';
 
 import './utils/app_routes.dart';
 import './screens/auth_screen.dart';
 import './screens/dashboard_screen.dart';
+import './providers/collections.dart';
+import './providers/user.dart';
+import './screens/collection_screen.dart';
+import './screens/page_composer_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -45,7 +47,9 @@ class MyApp extends StatelessWidget {
         home: AuthScreen(),
         routes: {
           AppRoutes.AUTH: (ctx) => AuthScreen(),
-          AppRoutes.DASHBOARD: (ctx) => DashboardScreen()
+          AppRoutes.DASHBOARD: (ctx) => DashboardScreen(),
+          AppRoutes.COLLECTION: (ctx) => CollectionScreen(),
+          AppRoutes.PAGE_COMPOSER: (ctx) => PageComposerScreen()
         },
       ),
     );

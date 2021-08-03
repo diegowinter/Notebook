@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/user.dart';
+import 'package:notebook/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final _controller = new TextEditingController();
 
-  _newCollectionModal(BuildContext context) {
+  _newCollectionModal() {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -80,15 +81,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    // final user = Provider.of<User>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Coleções'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () => Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _newCollectionModal(context),
+        onPressed: () => _newCollectionModal(),
       ),
       body: Center(
         child: FutureBuilder(
@@ -107,8 +114,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onRefresh: () => _refreshCollections(),
                   child: ListView.builder(
                     itemCount: collections.itemsCount,
-                    itemBuilder: (ctx, index) => ListTile(
-                      title: Text(collections.collections[index].title),
+                    itemBuilder: (ctx, index) => Card(
+                      child: ListTile(
+                        title: Text(collections.collections[index].title),
+                        onTap: () => Navigator.of(context).pushNamed(AppRoutes.COLLECTION),
+                      ),
                     ),
                   ),
                 );
