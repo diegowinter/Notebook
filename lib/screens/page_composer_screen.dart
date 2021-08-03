@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/utils/app_routes.dart';
 
 class PageComposerScreen extends StatelessWidget {
-  const PageComposerScreen({ Key? key }) : super(key: key);
+  final _contentController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class PageComposerScreen extends StatelessWidget {
                 maxLines: null,
                 minLines: null,
                 expands: true,
+                controller: _contentController,
               ),
             ),
             Row(
@@ -34,7 +36,10 @@ class PageComposerScreen extends StatelessWidget {
               children: [
                 TextButton(
                   child: Text('Pré-visualizar'),
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    AppRoutes.PAGE_VIEWER,
+                    arguments: _contentController.text
+                  ),
                 ),
                 TextButton(
                   child: Text('Salvar'),

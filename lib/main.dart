@@ -8,6 +8,7 @@ import './providers/collections.dart';
 import './providers/user.dart';
 import './screens/collection_screen.dart';
 import './screens/page_composer_screen.dart';
+import './screens/page_viewer_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,7 +50,8 @@ class MyApp extends StatelessWidget {
           AppRoutes.AUTH: (ctx) => AuthScreen(),
           AppRoutes.DASHBOARD: (ctx) => DashboardScreen(),
           AppRoutes.COLLECTION: (ctx) => CollectionScreen(),
-          AppRoutes.PAGE_COMPOSER: (ctx) => PageComposerScreen()
+          AppRoutes.PAGE_COMPOSER: (ctx) => PageComposerScreen(),
+          AppRoutes.PAGE_VIEWER: (ctx) => PageViewerScreen()
         },
       ),
     );
