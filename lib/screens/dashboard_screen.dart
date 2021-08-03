@@ -52,7 +52,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     IconButton(
                       icon: Icon(Icons.check),
-                      onPressed: () => _addCollection(),
+                      onPressed: () async {
+                        await _addCollection();
+                        _controller.clear();
+                        Navigator.of(context).pop();
+                      }
                     )
                   ],
                 )
