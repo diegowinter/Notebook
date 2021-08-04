@@ -13,6 +13,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  bool _isLoading = false;
   GlobalKey<FormState> _form = GlobalKey();
   Map<String, String> _formData = {
     'email': '',
@@ -24,11 +25,18 @@ class _AuthScreenState extends State<AuthScreen> {
       return;
     }
     _form.currentState!.save();
+    FocusScope.of(context).unfocus();
+
+    setState(() {
+      _isLoading = true;
+    });
 
     await Provider.of<User>(context, listen: false)
         .login(_formData['email'], _formData['password']);
 
-    
+    setState(() {
+      _isLoading = false;
+    });
 
     // if (response.statusCode != 200) {
     //   print(response.body);
@@ -63,6 +71,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       labelText: 'E-mail'
                     ),
                     keyboardType: TextInputType.emailAddress,
+                    enabled: !_isLoading,
                     validator: (value) {
                       if (!value!.contains('@') || value.trim().isEmpty) {
                         return 'Insira um e-mail válido!';
@@ -76,6 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       labelText: 'Senha'
                     ),
                     obscureText: true,
+                    enabled: !_isLoading,
                     validator: (value) {
                       if (value!.trim().length < 6 || value.trim().isEmpty) {
                         return 'A senha deve ter 6 ou mais caracteres.';
@@ -87,10 +97,12 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              child: Text('Entrar'),
-              onPressed: () => _onSave(),
-            )
+            _isLoading
+              ? Center(child: CircularProgressIndicator())
+              : ElevatedButton(
+                  child: Text('Entrar'),
+                  onPressed: () => _onSave(),
+                )
           ],
         ),
       ),
