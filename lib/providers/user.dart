@@ -23,8 +23,15 @@ class User with ChangeNotifier{
 
     final responseBody = json.decode(response.body);
 
-    if (responseBody['error'] != null) {
-      throw 'Algo deu errado';
+    if (response.statusCode != 200) {
+      switch(responseBody['error']['message']) {
+        case 'INVALID_PASSWORD':
+          throw 'Senha incorreta.';
+        case 'EMAIL_NOT_FOUND':
+          throw 'E-mail não encontrado.';
+        default:
+          throw 'Ocorreu um erro';
+      }
     } else {
       _id = responseBody['localId'];
       _email = responseBody['email'];

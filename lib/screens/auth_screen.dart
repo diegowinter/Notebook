@@ -20,6 +20,24 @@ class _AuthScreenState extends State<AuthScreen> {
     'password': ''
   };
 
+  void _showDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Ocorreu um erro'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: Text('Tentar novamente'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      )
+    );
+  }
+
   Future<void> _onSave() async {
     if (!_form.currentState!.validate()) {
       return;
@@ -31,21 +49,17 @@ class _AuthScreenState extends State<AuthScreen> {
       _isLoading = true;
     });
 
-    await Provider.of<User>(context, listen: false)
+    try {
+      await Provider.of<User>(context, listen: false)
         .login(_formData['email'], _formData['password']);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
+    } catch (error) {
+      _showDialog(error.toString());
+    }
 
     setState(() {
       _isLoading = false;
     });
-
-    // if (response.statusCode != 200) {
-    //   print(response.body);
-    //   return;
-    // }
-
-    // print(response.body);
-
-    Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
   }
 
   @override
