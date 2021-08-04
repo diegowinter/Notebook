@@ -115,11 +115,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (snapshot.error != null) {
-              return Center(child: Text('Ocorreu um erro.'));
             }
             return Consumer<Collections>(
               builder: (ctx, collections, child) {
+                if (collections.itemsCount == 0) {
+                  return Center(child: Text('As coleções aparecerão aqui.'));
+                }
                 return RefreshIndicator(
                   onRefresh: () => _refreshCollections(),
                   child: ListView.builder(
