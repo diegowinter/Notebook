@@ -35,6 +35,31 @@ class Pages with ChangeNotifier {
     print(response.body);
   }
 
+  Future<void> loadPages(String collectionId) async {
+    final response = await http.get(
+      Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/collections/$_userId/$collectionId/pages.json?auth=$_token'),
+    );
+
+    if (response.statusCode != 200) {
+      throw 'Ocorreu um erro ao carregar as páginas';
+    }
+
+    Map<String, dynamic> data = json.decode(response.body);
+    _pages.clear();
+    data.forEach((pageId, pageData) {
+      _pages.add(Page(
+        collectionId: collectionId,
+        title: pageData['title'],
+        content: pageData['content']
+      ));
+    });
+
+    notifyListeners();
+
+    print(response.statusCode);
+    print(response.body);
+  }
+
   List<Page> get pages {
     return _pages;
   }
