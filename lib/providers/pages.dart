@@ -24,7 +24,7 @@ class Pages with ChangeNotifier {
 
   Future<void> addPage(String collectionId, String title, String content) async {
     final response = await http.post(
-      Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/collections/$_userId/$collectionId/pages.json?auth=$_token'),
+      Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/pages/$_userId/$collectionId.json?auth=$_token'),
       body: json.encode({
         'title': title,
         'content': content
@@ -47,7 +47,7 @@ class Pages with ChangeNotifier {
     print(collectionId);
 
     final response = await http.get(
-      Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/collections/$_userId/$collectionId/pages.json?auth=$_token'),
+      Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/pages/$_userId/$collectionId.json?auth=$_token'),
     );
 
     if (response.statusCode != 200) {
