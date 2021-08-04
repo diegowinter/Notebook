@@ -31,8 +31,16 @@ class Pages with ChangeNotifier {
       })
     );
 
-    print(response.statusCode);
-    print(response.body);
+    if (response.statusCode != 200) {
+      throw 'Ocorreu um erro ao adicionar esta página';
+    }
+
+    _pages.add(CollectionPage(
+      collectionId: collectionId,
+      title: title,
+      content: content
+    ));
+    notifyListeners();
   }
 
   Future<void> loadPages(String collectionId) async {

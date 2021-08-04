@@ -5,14 +5,8 @@ import 'package:notebook/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class CollectionScreen extends StatelessWidget {
-
   final collectionId;
-
   CollectionScreen({ required this.collectionId});
- 
-  
-
-  // late final Future _pages = Provider.of<Pages>(context, listen: false).loadPages(widget.collectionId);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +19,12 @@ class CollectionScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => Navigator.of(context).pushNamed(AppRoutes.PAGE_COMPOSER),
+        onPressed: () {
+          Navigator.of(context).pushNamed(
+            AppRoutes.PAGE_COMPOSER,
+            arguments: collectionId
+          );
+        },
       ),
       body: Center(
         child: FutureBuilder(
