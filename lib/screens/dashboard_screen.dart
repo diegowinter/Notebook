@@ -10,7 +10,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final _controller = new TextEditingController();
+  final _nameController = new TextEditingController();
+  final _descriptionController = new TextEditingController();
 
   _newCollectionModal() {
     showModalBottomSheet(
@@ -39,28 +40,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     fontWeight: FontWeight.bold
                   ),
                 ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Nome da coleção'
+                  ),
+                  controller: _nameController,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Descrição da coleção'
+                  ),
+                  controller: _descriptionController,
+                ),
                 Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Nome da coleção'
-                        ),
-                        controller: _controller,
-                      ),
+                    TextButton(
+                      child: Text('Cancelar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    IconButton(
-                      icon: Icon(Icons.check),
+                    TextButton(
+                      child: Text('Adicionar'),
                       onPressed: () async {
                         await _addCollection();
-                        _controller.clear();
+                        _nameController.clear();
                         Navigator.of(context).pop();
-                      }
+                      },
                     )
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -70,7 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _addCollection() async {
-    return Provider.of<Collections>(context, listen: false).addCollection(_controller.text);
+    return Provider.of<Collections>(context, listen: false).addCollection(_nameController.text, _descriptionController.text);
   }
 
   Future<void> _refreshCollections() async {
@@ -117,6 +127,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     itemBuilder: (ctx, index) => Card(
                       child: ListTile(
                         title: Text(collections.collections[index].title),
+                        subtitle: Text(collections.collections[index].description),
                         onTap: () => Navigator.of(context).pushNamed(
                           AppRoutes.COLLECTION,
                           arguments: collections.collections[index].id,
