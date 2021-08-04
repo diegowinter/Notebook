@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class Page {
+class CollectionPage {
   final String collectionId;
   final String title;
   final String content;
 
-  Page({
+  CollectionPage({
     required this.collectionId,
     required this.title,
     required this.content,
@@ -18,7 +18,7 @@ class Page {
 class Pages with ChangeNotifier {
   String _userId;
   String _token;
-  List<Page> _pages = [];
+  List<CollectionPage> _pages = [];
 
   Pages(this._userId, this._token, this._pages);
 
@@ -36,6 +36,8 @@ class Pages with ChangeNotifier {
   }
 
   Future<void> loadPages(String collectionId) async {
+    print(collectionId);
+
     final response = await http.get(
       Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/collections/$_userId/$collectionId/pages.json?auth=$_token'),
     );
@@ -44,23 +46,24 @@ class Pages with ChangeNotifier {
       throw 'Ocorreu um erro ao carregar as páginas';
     }
 
-    Map<String, dynamic> data = json.decode(response.body);
     _pages.clear();
-    data.forEach((pageId, pageData) {
-      _pages.add(Page(
+    json.decode(response.body).forEach((pageId, pageData) {
+      _pages.add(CollectionPage(
         collectionId: collectionId,
         title: pageData['title'],
         content: pageData['content']
       ));
     });
-
     notifyListeners();
 
-    print(response.statusCode);
-    print(response.body);
+    return Future.value();
   }
 
-  List<Page> get pages {
-    return _pages;
+  int get pagesCount {
+    return _pages.length;
+  }
+
+  List<CollectionPage> get pages {
+    return [..._pages];
   }
 }

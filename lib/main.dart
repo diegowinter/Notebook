@@ -58,9 +58,20 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.AUTH: (ctx) => AuthScreen(),
           AppRoutes.DASHBOARD: (ctx) => DashboardScreen(),
-          AppRoutes.COLLECTION: (ctx) => CollectionScreen(),
+          // AppRoutes.COLLECTION: (ctx) => CollectionScreen(),
           AppRoutes.PAGE_COMPOSER: (ctx) => PageComposerScreen(),
           AppRoutes.PAGE_VIEWER: (ctx) => PageViewerScreen()
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == AppRoutes.COLLECTION) {
+            final String argument = settings.arguments.toString();
+
+            return MaterialPageRoute(
+              builder: (context) {
+                return CollectionScreen(collectionId: argument);
+              }
+            );
+          }
         },
       ),
     );

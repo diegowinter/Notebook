@@ -42,13 +42,17 @@ class PageComposerScreen extends StatelessWidget {
                   child: Text('Pré-visualizar'),
                   onPressed: () => Navigator.of(context).pushNamed(
                     AppRoutes.PAGE_VIEWER,
-                    arguments: _contentController.text
+                    arguments: CollectionPage(
+                      collectionId: 'collectionId',
+                      title: _titleController.text, 
+                      content: _contentController.text
+                    )
                   ),
                 ),
                 TextButton(
                   child: Text('Salvar'),
                   onPressed: () async {
-                    await Provider.of<Pages>(context, listen: false).addPage('-Mg8joB-Y-UkOJDfxKA6', _titleController.text, _contentController.text);
+                    await Provider.of<Pages>(context, listen: false).addPage('-Mg8lLqouY7qNiIOqmEt', _titleController.text, _contentController.text);
                   },
                 ),
               ],

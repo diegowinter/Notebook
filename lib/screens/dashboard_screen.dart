@@ -117,7 +117,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     itemBuilder: (ctx, index) => Card(
                       child: ListTile(
                         title: Text(collections.collections[index].title),
-                        onTap: () => Navigator.of(context).pushNamed(AppRoutes.COLLECTION),
+                        onTap: () => Navigator.of(context).pushNamed(
+                          AppRoutes.COLLECTION,
+                          arguments: collections.collections[index].id,
+                        ),
                       ),
                     ),
                   ),

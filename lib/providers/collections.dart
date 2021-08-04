@@ -63,6 +63,10 @@ class Collections with ChangeNotifier {
     return _collections;
   }
 
+  String getCollectionTitle(String collectionId) {
+    return _collections.firstWhere((element) => element.id == collectionId).title;
+  }
+
   int get itemsCount {
     return _collections.length;
   }

@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/pages.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
-class CollectionScreen extends StatefulWidget {
-  const CollectionScreen({ Key? key }) : super(key: key);
+class CollectionScreen extends StatelessWidget {
 
-  @override
-  _CollectionScreenState createState() => _CollectionScreenState();
-}
+  final collectionId;
 
-class _CollectionScreenState extends State<CollectionScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  CollectionScreen({ required this.collectionId});
+ 
+  
 
-  late final Future _pages = Provider.of<Pages>(context).loadPages('-Mg8joB-Y-UkOJDfxKA6');
+  // late final Future _pages = Provider.of<Pages>(context, listen: false).loadPages(widget.collectionId);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Coleção')
+        title: Text(
+          Provider.of<Collections>(context, listen: false)
+              .getCollectionTitle(collectionId),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -30,18 +29,29 @@ class _CollectionScreenState extends State<CollectionScreen> {
       ),
       body: Center(
         child: FutureBuilder(
-          future: _pages,
+          future: Provider.of<Pages>(context, listen: false).loadPages(collectionId),
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             }
             return Consumer<Pages>(
               builder: (ctx, pages, child) {
+                if (pages.pagesCount == 0) {
+                  return Center(
+                    child: Text('As páginas desta coleção aparecerão aqui.'),
+                  );
+                }
                 return ListView.builder(
-                  itemCount: pages.pages.length,
+                  itemCount: pages.pagesCount,
                   itemBuilder: (ctx, index) => Card(
                     child: ListTile(
-                      title: Text(pages.pages[index].title)
+                      title: Text(pages.pages[index].title),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          AppRoutes.PAGE_VIEWER,
+                          arguments: pages.pages[index]
+                        );
+                      },
                     ),
                   ),
                 );
