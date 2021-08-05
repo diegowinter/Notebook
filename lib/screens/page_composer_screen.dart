@@ -67,6 +67,9 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                     minLines: null,
                     expands: true,
                     controller: _contentController,
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength }) => Text(
+                      currentLength.toString()
+                    ),
                   ),
                 ),
                 Row(
