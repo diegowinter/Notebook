@@ -44,6 +44,10 @@ class CollectionScreen extends StatelessWidget {
                   itemCount: pages.pagesCount,
                   itemBuilder: (ctx, index) => Card(
                     child: ListTile(
+                      leading: Container(
+                        height: double.infinity,
+                        child: Icon(Icons.article)
+                      ),
                       title: Text(pages.pages[index].title),
                       onTap: () {
                         Navigator.of(context).pushNamed(
