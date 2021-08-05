@@ -8,6 +8,10 @@ class CollectionScreen extends StatelessWidget {
   final collectionId;
   CollectionScreen({ required this.collectionId});
 
+  Future<void> _refreshPages(BuildContext context, String collectionId) async {
+    return Provider.of<Pages>(context, listen: false).loadPages(collectionId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,21 +44,24 @@ class CollectionScreen extends StatelessWidget {
                     child: Text('As páginas desta coleção aparecerão aqui.'),
                   );
                 }
-                return ListView.builder(
-                  itemCount: pages.pagesCount,
-                  itemBuilder: (ctx, index) => Card(
-                    child: ListTile(
-                      leading: Container(
-                        height: double.infinity,
-                        child: Icon(Icons.article)
+                return RefreshIndicator(
+                  onRefresh: () => _refreshPages(context, collectionId),
+                  child: ListView.builder(
+                    itemCount: pages.pagesCount,
+                    itemBuilder: (ctx, index) => Card(
+                      child: ListTile(
+                        leading: Container(
+                          height: double.infinity,
+                          child: Icon(Icons.article)
+                        ),
+                        title: Text(pages.pages[index].title),
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            AppRoutes.PAGE_VIEWER,
+                            arguments: pages.pages[index]
+                          );
+                        },
                       ),
-                      title: Text(pages.pages[index].title),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRoutes.PAGE_VIEWER,
-                          arguments: pages.pages[index]
-                        );
-                      },
                     ),
                   ),
                 );
