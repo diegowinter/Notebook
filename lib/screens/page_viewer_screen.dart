@@ -13,6 +13,34 @@ class PageViewerScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(page.title),
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            onSelected: (value) {
+
+            },
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.edit),
+                    SizedBox(width: 20),
+                    Text('Editar'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.delete),
+                    SizedBox(width: 20),
+                    Text('Excluir'),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ],
       ),
       body: Markdown(
         data: page.content,

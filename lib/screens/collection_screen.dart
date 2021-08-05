@@ -55,6 +55,32 @@ class CollectionScreen extends StatelessWidget {
                           child: Icon(Icons.article)
                         ),
                         title: Text(pages.pages[index].title),
+                        trailing: PopupMenuButton(
+                          icon: Icon(Icons.more_vert),
+                          onSelected: (value) {
+
+                          },
+                          itemBuilder: (_) => [
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.edit),
+                                  SizedBox(width: 20),
+                                  Text('Editar'),
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.delete),
+                                  SizedBox(width: 20),
+                                  Text('Excluir'),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             AppRoutes.PAGE_VIEWER,

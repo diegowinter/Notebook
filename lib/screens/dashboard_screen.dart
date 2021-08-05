@@ -72,6 +72,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         title: Text(collections.collections[index].title),
                         subtitle: Text(collections.collections[index].description),
+                        trailing: PopupMenuButton(
+                          icon: Icon(Icons.more_vert),
+                          onSelected: (value) {
+
+                          },
+                          itemBuilder: (_) => [
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.edit),
+                                  SizedBox(width: 20),
+                                  Text('Editar'),
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.delete),
+                                  SizedBox(width: 20),
+                                  Text('Excluir'),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                         onTap: () => Navigator.of(context).pushNamed(
                           AppRoutes.COLLECTION,
                           arguments: collections.collections[index].id,
