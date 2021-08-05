@@ -82,6 +82,7 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
                           },
                           onSaved: (value) => _formData['name'] = value!,
                           textInputAction: TextInputAction.next,
+                          textCapitalization: TextCapitalization.sentences,
                         ),
                         TextFormField(
                           decoration: InputDecoration(
@@ -95,6 +96,7 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
                           },
                           onSaved: (value) => _formData['description'] = value!,
                           textInputAction: TextInputAction.done,
+                          textCapitalization: TextCapitalization.sentences,
                         ),
                       ],
                     ),
