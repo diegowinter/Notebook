@@ -93,6 +93,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       return null;
                     },
                     onSaved: (value) => _formData['email'] = value!,
+                    textInputAction: TextInputAction.next,
                   ),
                   TextFormField(
                     decoration: InputDecoration(
@@ -106,6 +107,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       }
                     },
                     onSaved: (value) => _formData['password'] = value!,
+                    textInputAction: TextInputAction.done,
                   )
                 ]
               ),
