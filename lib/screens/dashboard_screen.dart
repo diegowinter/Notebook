@@ -4,6 +4,11 @@ import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/widgets/add_collection_modal.dart';
 import 'package:provider/provider.dart';
 
+enum ItemOptions {
+  Edit,
+  Delete
+}
+
 class DashboardScreen extends StatefulWidget {
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -22,6 +27,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
       isScrollControlled: true,
       builder: (_) => AddCollectionModal()
     );
+  }
+
+  Future<bool> _showDeleteConfirmationDialog(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Excluir coleção'),
+        content: Text('Tem certeza que deseja excluir esta coleção?'),
+        actions: [
+          TextButton(
+            child: Text('Não'),
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          TextButton(
+            child: Text('Sim'),
+            onPressed: () => Navigator.of(context).pop(true),
+          )
+        ],
+      )
+    );
+  }
+
+  Future<void> _editPage() async {
+    print('edit...');
+  }
+
+  Future<void> _deletePage(BuildContext context, String collectionId) async {
+    bool confirmation = await _showDeleteConfirmationDialog(context);
+    if (confirmation) {
+      Provider.of<Collections>(context, listen: false).deleteCollection(collectionId);
+    }
   }
 
   Future<void> _refreshCollections() async {
@@ -75,7 +111,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         trailing: PopupMenuButton(
                           icon: Icon(Icons.more_vert),
                           onSelected: (value) {
-
+                            value == ItemOptions.Edit
+                              ? _editPage()
+                              : _deletePage(context, collections.collections[index].id);
                           },
                           itemBuilder: (_) => [
                             PopupMenuItem(
@@ -86,6 +124,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text('Editar'),
                                 ],
                               ),
+                              value: ItemOptions.Edit
                             ),
                             PopupMenuItem(
                               child: Row(
@@ -95,6 +134,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text('Excluir'),
                                 ],
                               ),
+                              value: ItemOptions.Delete,
                             )
                           ],
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/pages.dart';
+import 'package:notebook/utils/Dialogs.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -13,34 +14,34 @@ class CollectionScreen extends StatelessWidget {
   final collectionId;
   CollectionScreen({ required this.collectionId});
 
-  Future<bool> _showDeleteConfirmationDialog(BuildContext context) async {
-    return await showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Excluir página'),
-        content: Text('Tem certeza que deseja excluir esta página?'),
-        actions: [
-          TextButton(
-            child: Text('Não'),
-            onPressed: () => Navigator.of(context).pop(false),
-          ),
-          TextButton(
-            child: Text('Sim'),
-            onPressed: () => Navigator.of(context).pop(true),
-          )
-        ],
-      )
-    );
-  }
-
   Future<void> _editPage() async {
     print('edit...');
   }
 
   Future<void> _deletePage(BuildContext context, String pageId) async {
-    bool confirmation = await _showDeleteConfirmationDialog(context);
+    bool confirmation = await Dialogs.confirmationDialog(
+      context: context,
+      title: 'Excluir página',
+      content: 'Tem certeza que deseja excluir esta página?'
+    );
     if (confirmation) {
       Provider.of<Pages>(context, listen: false).deletePage(pageId);
+    }
+  }
+
+  Future<void> _editCollection() async {
+    print('edit...');
+  }
+
+  Future<void> _deleteCollection(BuildContext context, String collectionId) async {
+    bool confirmation = await Dialogs.confirmationDialog(
+      context: context,
+      title: 'Excluir coleção',
+      content: 'Tem certeza que deseja excluir esta coleção?'
+    );
+    if (confirmation) {
+      Provider.of<Collections>(context, listen: false).deleteCollection(collectionId);
+      Navigator.of(context).pop();
     }
   }
 
@@ -56,6 +57,38 @@ class CollectionScreen extends StatelessWidget {
           Provider.of<Collections>(context, listen: false)
               .getCollectionTitle(collectionId),
         ),
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            onSelected: (value) {
+              value == ItemOptions.Edit
+                ? _editCollection()
+                : _deleteCollection(context, collectionId);
+            },
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.edit),
+                    SizedBox(width: 20),
+                    Text('Editar'),
+                  ],
+                ),
+                value: ItemOptions.Edit,
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.delete),
+                    SizedBox(width: 20),
+                    Text('Excluir'),
+                  ],
+                ),
+                value: ItemOptions.Delete,
+              ),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

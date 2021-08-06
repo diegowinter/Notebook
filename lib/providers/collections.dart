@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:notebook/utils/constants.dart';
 
 class Collection {
   final String id;
@@ -45,6 +46,25 @@ class Collections with ChangeNotifier {
     notifyListeners();
 
     print(response.body);
+  }
+
+  Future<void> deleteCollection(String collectionId) async {
+    final int index = _collections.indexWhere((collection) => collection.id == collectionId);
+    if (index >= 0) {
+      final collection = _collections[index];
+      _collections.remove(collection);
+      notifyListeners();
+
+      final response = await http.delete(
+        Uri.parse('${Constants.FIREBASE_URL}/collections/$_userId/$collectionId.json?auth=$_token')
+      );
+
+      if (response.statusCode != 200) {
+        _collections.insert(index, collection);
+        notifyListeners();
+        throw 'Ocorreu um erro ao excluir a coleção';
+      }
+    }
   }
 
   Future<void> loadCollections() async {
