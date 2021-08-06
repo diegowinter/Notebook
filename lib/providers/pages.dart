@@ -49,27 +49,6 @@ class Pages with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deletePage(String pageId) async {
-    final int index = _pages.indexWhere((page) => page.pageId == pageId);
-    if (index >= 0) {
-      final page = _pages[index];
-      _pages.remove(page);
-      notifyListeners();
-
-      final collectionId = page.collectionId;
-
-      final response = await http.delete(
-        Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/$collectionId/$pageId.json?auth=$_token'),
-      );
-
-      if (response.statusCode != 200) {
-        _pages.insert(index, page);
-        notifyListeners();
-        throw 'Ocorreu um erro ao excluir a página';
-      }
-    }
-  }
-
   Future<void> loadPages(String collectionId) async {
     final response = await http.get(
       Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/pages/$_userId/$collectionId.json?auth=$_token'),
@@ -92,6 +71,52 @@ class Pages with ChangeNotifier {
 
     return Future.value();
   }
+
+  Future<void> updatePage(String pageId, String newTitle, String newContent) async {
+    final int index = _pages.indexWhere((page) => page.pageId == pageId);
+    if (index >= 0) {
+      final page = _pages[index];
+      _pages.remove(page);
+      _pages.insert(index, CollectionPage(
+        pageId: pageId,
+        collectionId: page.collectionId,
+        title: newTitle,
+        content: newContent
+      ));
+      notifyListeners();
+
+      await http.patch(
+        Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/${page.collectionId}/$pageId.json?auth=$_token'),
+        body: json.encode({
+          'title': newTitle,
+          'content': newContent
+        })
+      );
+    }
+  }
+
+  Future<void> deletePage(String pageId) async {
+    final int index = _pages.indexWhere((page) => page.pageId == pageId);
+    if (index >= 0) {
+      final page = _pages[index];
+      _pages.remove(page);
+      notifyListeners();
+
+      final collectionId = page.collectionId;
+
+      final response = await http.delete(
+        Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/$collectionId/$pageId.json?auth=$_token'),
+      );
+
+      if (response.statusCode != 200) {
+        _pages.insert(index, page);
+        notifyListeners();
+        throw 'Ocorreu um erro ao excluir a página';
+      }
+    }
+  }
+
+  
 
   int get pagesCount {
     return _pages.length;

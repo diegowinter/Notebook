@@ -3,6 +3,7 @@ import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/pages.dart';
 import 'package:notebook/utils/Dialogs.dart';
 import 'package:notebook/utils/app_routes.dart';
+import 'package:notebook/utils/mode.dart';
 import 'package:provider/provider.dart';
 
 enum ItemOptions {
@@ -14,8 +15,15 @@ class CollectionScreen extends StatelessWidget {
   final collectionId;
   CollectionScreen({ required this.collectionId});
 
-  Future<void> _editPage() async {
-    print('edit...');
+  void _editPage(BuildContext context, CollectionPage collectionPage) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.PAGE_COMPOSER,
+      arguments: {
+        'collectionId': collectionId,
+        'collectionPage': collectionPage,
+        'mode': Mode.EDIT
+      }
+    );
   }
 
   Future<void> _deletePage(BuildContext context, String pageId) async {
@@ -29,7 +37,7 @@ class CollectionScreen extends StatelessWidget {
     }
   }
 
-  Future<void> _editCollection() async {
+  void _editCollection() {
     print('edit...');
   }
 
@@ -95,7 +103,10 @@ class CollectionScreen extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).pushNamed(
             AppRoutes.PAGE_COMPOSER,
-            arguments: collectionId
+            arguments: {
+              'collectionId': collectionId,
+              'mode': Mode.CREATE
+            }
           );
         },
       ),
@@ -128,7 +139,7 @@ class CollectionScreen extends StatelessWidget {
                           icon: Icon(Icons.more_vert),
                           onSelected: (value) {
                             value == ItemOptions.Edit
-                              ? _editPage()
+                              ? _editPage(context, pages.pages[index])
                               : _deletePage(context, pages.pages[index].pageId);
                           },
                           itemBuilder: (_) => [

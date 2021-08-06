@@ -59,18 +59,36 @@ class MyApp extends StatelessWidget {
           AppRoutes.AUTH: (ctx) => AuthScreen(),
           AppRoutes.DASHBOARD: (ctx) => DashboardScreen(),
           // AppRoutes.COLLECTION: (ctx) => CollectionScreen(),
-          AppRoutes.PAGE_COMPOSER: (ctx) => PageComposerScreen(),
-          AppRoutes.PAGE_VIEWER: (ctx) => PageViewerScreen()
+          // AppRoutes.PAGE_COMPOSER: (ctx) => PageComposerScreen(),
+          // AppRoutes.PAGE_VIEWER: (ctx) => PageViewerScreen()
         },
         onGenerateRoute: (settings) {
-          if (settings.name == AppRoutes.COLLECTION) {
-            final String argument = settings.arguments.toString();
-
-            return MaterialPageRoute(
-              builder: (context) {
-                return CollectionScreen(collectionId: argument);
-              }
-            );
+          switch (settings.name) {
+            case AppRoutes.COLLECTION:
+              final String argument = settings.arguments.toString();
+              return MaterialPageRoute(
+                builder: (context) {
+                  return CollectionScreen(collectionId: argument);
+                }
+              );
+            case AppRoutes.PAGE_COMPOSER:
+              final argument = settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return PageComposerScreen(
+                    collectionId: argument['collectionId'],
+                    collectionPage: argument['collectionPage'],
+                    mode: argument['mode'],
+                  );
+                }
+              );
+            case AppRoutes.PAGE_VIEWER:
+              final argument = settings.arguments as CollectionPage;
+              return MaterialPageRoute(
+                builder: (context) {
+                  return PageViewerScreen(argument);
+                }
+              );
           }
         },
       ),
