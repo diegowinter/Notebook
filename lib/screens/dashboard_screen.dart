@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/providers/collections.dart';
 import 'package:notebook/utils/app_routes.dart';
+import 'package:notebook/utils/mode.dart';
 import 'package:notebook/widgets/add_collection_modal.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
       isScrollControlled: true,
-      builder: (_) => AddCollectionModal()
+      builder: (_) => AddCollectionModal(mode: Mode.CREATE,)
     );
   }
 
@@ -49,11 +50,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Future<void> _editPage() async {
-    print('edit...');
+  void _editCollection(String collectionId) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10)
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (_) => AddCollectionModal(collectionId: collectionId, mode: Mode.EDIT)
+    );
   }
 
-  Future<void> _deletePage(BuildContext context, String collectionId) async {
+  Future<void> _deleteCollection(BuildContext context, String collectionId) async {
     bool confirmation = await _showDeleteConfirmationDialog(context);
     if (confirmation) {
       Provider.of<Collections>(context, listen: false).deleteCollection(collectionId);
@@ -112,8 +123,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           icon: Icon(Icons.more_vert),
                           onSelected: (value) {
                             value == ItemOptions.Edit
-                              ? _editPage()
-                              : _deletePage(context, collections.collections[index].id);
+                              ? _editCollection(collections.collections[index].id)
+                              : _deleteCollection(context, collections.collections[index].id);
                           },
                           itemBuilder: (_) => [
                             PopupMenuItem(

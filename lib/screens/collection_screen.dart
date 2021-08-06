@@ -4,6 +4,7 @@ import 'package:notebook/providers/pages.dart';
 import 'package:notebook/utils/Dialogs.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/utils/mode.dart';
+import 'package:notebook/widgets/add_collection_modal.dart';
 import 'package:provider/provider.dart';
 
 enum ItemOptions {
@@ -37,8 +38,18 @@ class CollectionScreen extends StatelessWidget {
     }
   }
 
-  void _editCollection() {
-    print('edit...');
+  void _editCollection(BuildContext context, String collectionId) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10)
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (_) => AddCollectionModal(collectionId: collectionId, mode: Mode.EDIT)
+    );
   }
 
   Future<void> _deleteCollection(BuildContext context, String collectionId) async {
@@ -59,7 +70,7 @@ class CollectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final collections = Provider.of<Collections>(context, listen: false);
+    final collections = Provider.of<Collections>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -83,7 +94,7 @@ class CollectionScreen extends StatelessWidget {
             icon: Icon(Icons.more_vert),
             onSelected: (value) {
               value == ItemOptions.Edit
-                ? _editCollection()
+                ? _editCollection(context, collectionId)
                 : _deleteCollection(context, collectionId);
             },
             itemBuilder: (_) => [

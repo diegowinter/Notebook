@@ -48,25 +48,6 @@ class Collections with ChangeNotifier {
     print(response.body);
   }
 
-  Future<void> deleteCollection(String collectionId) async {
-    final int index = _collections.indexWhere((collection) => collection.id == collectionId);
-    if (index >= 0) {
-      final collection = _collections[index];
-      _collections.remove(collection);
-      notifyListeners();
-
-      final response = await http.delete(
-        Uri.parse('${Constants.FIREBASE_URL}/collections/$_userId/$collectionId.json?auth=$_token')
-      );
-
-      if (response.statusCode != 200) {
-        _collections.insert(index, collection);
-        notifyListeners();
-        throw 'Ocorreu um erro ao excluir a coleção';
-      }
-    }
-  }
-
   Future<void> loadCollections() async {
     final response = await http.get(
       Uri.parse(
@@ -87,6 +68,47 @@ class Collections with ChangeNotifier {
     notifyListeners();
     
     return Future.value();
+  }
+
+  Future<void> updateCollection(String collectionId, String newName, String newDescription) async {
+    final int index = _collections.indexWhere((collection) => collection.id == collectionId);
+    if (index >= 0) {
+      final collection = _collections[index];
+      _collections.remove(collection);
+      _collections.insert(index, Collection(
+        id: collectionId,
+        title: newName,
+        description: newDescription
+      ));
+      notifyListeners();
+
+      await http.patch(
+        Uri.parse('${Constants.FIREBASE_URL}/collections/$_userId/$collectionId.json?auth=$_token'),
+        body: json.encode({
+          'name': newName,
+          'description': newDescription
+        })
+      );
+    }
+  }
+
+  Future<void> deleteCollection(String collectionId) async {
+    final int index = _collections.indexWhere((collection) => collection.id == collectionId);
+    if (index >= 0) {
+      final collection = _collections[index];
+      _collections.remove(collection);
+      notifyListeners();
+
+      final response = await http.delete(
+        Uri.parse('${Constants.FIREBASE_URL}/collections/$_userId/$collectionId.json?auth=$_token')
+      );
+
+      if (response.statusCode != 200) {
+        _collections.insert(index, collection);
+        notifyListeners();
+        throw 'Ocorreu um erro ao excluir a coleção';
+      }
+    }
   }
 
   List<Collection> get collections {
