@@ -2,13 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:notebook/utils/constants.dart';
 
 class CollectionPage {
+  final String pageId;
   final String collectionId;
   final String title;
   final String content;
 
   CollectionPage({
+    required this.pageId,
     required this.collectionId,
     required this.title,
     required this.content,
@@ -35,7 +38,10 @@ class Pages with ChangeNotifier {
       throw 'Ocorreu um erro ao adicionar esta página';
     }
 
+    final responseBody = json.decode(response.body);
+
     _pages.add(CollectionPage(
+      pageId: responseBody['name'],
       collectionId: collectionId,
       title: title,
       content: content
@@ -43,9 +49,28 @@ class Pages with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadPages(String collectionId) async {
-    print(collectionId);
+  Future<void> deletePage(String pageId) async {
+    final int index = _pages.indexWhere((page) => page.pageId == pageId);
+    if (index >= 0) {
+      final page = _pages[index];
+      _pages.remove(page);
+      notifyListeners();
 
+      final collectionId = page.collectionId;
+
+      final response = await http.delete(
+        Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/$collectionId/$pageId.json?auth=$_token'),
+      );
+
+      if (response.statusCode != 200) {
+        _pages.insert(index, page);
+        notifyListeners();
+        throw 'Ocorreu um erro ao excluir a página';
+      }
+    }
+  }
+
+  Future<void> loadPages(String collectionId) async {
     final response = await http.get(
       Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/pages/$_userId/$collectionId.json?auth=$_token'),
     );
@@ -57,6 +82,7 @@ class Pages with ChangeNotifier {
     _pages.clear();
     json.decode(response.body).forEach((pageId, pageData) {
       _pages.add(CollectionPage(
+        pageId: pageId,
         collectionId: collectionId,
         title: pageData['title'],
         content: pageData['content']
