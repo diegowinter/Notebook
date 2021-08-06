@@ -4,9 +4,45 @@ import 'package:notebook/providers/pages.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
+enum ItemOptions {
+  Edit,
+  Delete
+}
+
 class CollectionScreen extends StatelessWidget {
   final collectionId;
   CollectionScreen({ required this.collectionId});
+
+  Future<bool> _showDeleteConfirmationDialog(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Excluir página'),
+        content: Text('Tem certeza que deseja excluir esta página?'),
+        actions: [
+          TextButton(
+            child: Text('Não'),
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          TextButton(
+            child: Text('Sim'),
+            onPressed: () => Navigator.of(context).pop(true),
+          )
+        ],
+      )
+    );
+  }
+
+  Future<void> _editPage() async {
+    print('edit...');
+  }
+
+  Future<void> _deletePage(BuildContext context, String pageId) async {
+    bool confirmation = await _showDeleteConfirmationDialog(context);
+    if (confirmation) {
+      Provider.of<Pages>(context, listen: false).deletePage(pageId);
+    }
+  }
 
   Future<void> _refreshPages(BuildContext context, String collectionId) async {
     return Provider.of<Pages>(context, listen: false).loadPages(collectionId);
@@ -58,7 +94,9 @@ class CollectionScreen extends StatelessWidget {
                         trailing: PopupMenuButton(
                           icon: Icon(Icons.more_vert),
                           onSelected: (value) {
-
+                            value == ItemOptions.Edit
+                              ? _editPage()
+                              : _deletePage(context, pages.pages[index].pageId);
                           },
                           itemBuilder: (_) => [
                             PopupMenuItem(
@@ -69,6 +107,7 @@ class CollectionScreen extends StatelessWidget {
                                   Text('Editar'),
                                 ],
                               ),
+                              value: ItemOptions.Edit,
                             ),
                             PopupMenuItem(
                               child: Row(
@@ -78,7 +117,8 @@ class CollectionScreen extends StatelessWidget {
                                   Text('Excluir'),
                                 ],
                               ),
-                            )
+                              value: ItemOptions.Delete,
+                            ),
                           ],
                         ),
                         onTap: () {

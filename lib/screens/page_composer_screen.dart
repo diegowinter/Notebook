@@ -80,6 +80,7 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                       onPressed: () => Navigator.of(context).pushNamed(
                         AppRoutes.PAGE_VIEWER,
                         arguments: CollectionPage(
+                          pageId: '',
                           collectionId: 'collectionId',
                           title: _titleController.text, 
                           content: _contentController.text
