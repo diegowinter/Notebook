@@ -59,11 +59,24 @@ class CollectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final collections = Provider.of<Collections>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          Provider.of<Collections>(context, listen: false)
-              .getCollectionTitle(collectionId),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              collections.getCollectionTitle(collectionId),
+            ),
+            Text(
+              collections.getCollectionDescription(collectionId),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal
+              ),
+            )
+          ],
         ),
         actions: [
           PopupMenuButton(
