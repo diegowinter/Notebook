@@ -35,39 +35,58 @@ class PageViewerScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(page.title),
-        actions: [
-          PopupMenuButton(
-            icon: Icon(Icons.more_vert),
-            onSelected: (value) {
-              value == ItemOptions.Edit
-                ? _editPage()
-                : _deletePage(context, page.pageId);
-            },
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.edit),
-                    SizedBox(width: 20),
-                    Text('Editar'),
-                  ],
-                ),
-                value: ItemOptions.Edit,
+        title: page.pageId.isEmpty
+          ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(page.title.isEmpty
+                ? 'Página sem título'
+                : page.title
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.delete),
-                    SizedBox(width: 20),
-                    Text('Excluir'),
-                  ],
+              Text(
+                'Pré-visualização',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal
                 ),
-                value: ItemOptions.Delete,
               )
             ],
-          ),
-        ],
+          )
+          : Text(page.title),
+        actions: page.pageId.isEmpty
+          ? []
+          : [
+              PopupMenuButton(
+                icon: Icon(Icons.more_vert),
+                onSelected: (value) {
+                  value == ItemOptions.Edit
+                    ? _editPage()
+                    : _deletePage(context, page.pageId);
+                },
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(Icons.edit),
+                        SizedBox(width: 20),
+                        Text('Editar'),
+                      ],
+                    ),
+                    value: ItemOptions.Edit,
+                  ),
+                  PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete),
+                        SizedBox(width: 20),
+                        Text('Excluir'),
+                      ],
+                    ),
+                    value: ItemOptions.Delete,
+                  )
+                ],
+              ),
+            ],
       ),
       body: Markdown(
         data: page.content,
