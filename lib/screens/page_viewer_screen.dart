@@ -95,7 +95,7 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                       children: [
                         Icon(Icons.edit),
                         SizedBox(width: 20),
-                        Text('Editar'),
+                        Text('Editar página'),
                       ],
                     ),
                     value: ItemOptions.Edit,
@@ -105,7 +105,7 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                       children: [
                         Icon(Icons.delete),
                         SizedBox(width: 20),
-                        Text('Excluir'),
+                        Text('Excluir página'),
                       ],
                     ),
                     value: ItemOptions.Delete,

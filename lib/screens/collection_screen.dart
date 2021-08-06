@@ -103,7 +103,7 @@ class CollectionScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.edit),
                     SizedBox(width: 20),
-                    Text('Editar'),
+                    Text('Editar coleção'),
                   ],
                 ),
                 value: ItemOptions.Edit,
@@ -113,7 +113,7 @@ class CollectionScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.delete),
                     SizedBox(width: 20),
-                    Text('Excluir'),
+                    Text('Excluir coleção'),
                   ],
                 ),
                 value: ItemOptions.Delete,
@@ -172,7 +172,7 @@ class CollectionScreen extends StatelessWidget {
                                 children: [
                                   Icon(Icons.edit),
                                   SizedBox(width: 20),
-                                  Text('Editar'),
+                                  Text('Editar página'),
                                 ],
                               ),
                               value: ItemOptions.Edit,
@@ -182,7 +182,7 @@ class CollectionScreen extends StatelessWidget {
                                 children: [
                                   Icon(Icons.delete),
                                   SizedBox(width: 20),
-                                  Text('Excluir'),
+                                  Text('Excluir página'),
                                 ],
                               ),
                               value: ItemOptions.Delete,
