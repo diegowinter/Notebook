@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notebook/providers/pages.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/utils/mode.dart';
+import 'package:notebook/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
 class PageComposerScreen extends StatefulWidget {
@@ -97,24 +98,37 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Título'
-                  ),
+                CustomTextFormField(
+                  hint: 'Título',
                   controller: _titleController,
+                  maxLength: 100,
+                  onSaved: (value) {},
+                  textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    return null;
+                  },
                 ),
+                SizedBox(height: 10),
                 Expanded(
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: 'Conteúdo'
+                      hintText: 'Conteúdo',
+                      fillColor: Color.fromRGBO(66, 66, 66, 1),
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none
+                      ),
+                      isCollapsed: true,
+                      contentPadding: EdgeInsets.all(16)
                     ),
                     maxLines: null,
                     minLines: null,
                     expands: true,
                     controller: _contentController,
-                    buildCounter: (_, {required currentLength, required isFocused, maxLength }) => Text(
-                      currentLength.toString()
-                    ),
+                    buildCounter: (_, {required currentLength, required isFocused, maxLength }) {
+                      return Text(currentLength.toString());
+                    } 
                   ),
                 ),
                 Row(

@@ -122,6 +122,18 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
           md.ExtensionSet.gitHubFlavored.blockSyntaxes,
           [...md.ExtensionSet.gitHubFlavored.inlineSyntaxes]
         ),
+        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+            .copyWith(
+              blockquotePadding: EdgeInsets.only(left: 14),
+              blockquoteDecoration: BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                    color: Color.fromRGBO(66, 66, 66, 1),
+                    width: 4
+                  )
+                )
+              ),
+            ),
       )
     );
   }

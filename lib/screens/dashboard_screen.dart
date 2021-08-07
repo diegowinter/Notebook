@@ -91,6 +91,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
             tooltip: 'Mais opções',
+            onSelected: (value) {
+              if (value == 1) {
+                Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH);
+              }
+            },
             itemBuilder: (ctx) => [
               PopupMenuItem(
                 child: Row(
@@ -100,6 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Text('Desconectar')
                   ],
                 ),
+                value: 1,
               )
             ],
           ),

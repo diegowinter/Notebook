@@ -3,6 +3,8 @@ import 'package:notebook/providers/collections.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:provider/provider.dart';
 
+import 'custom_text_form_field.dart';
+
 class AddCollectionModal extends StatefulWidget {
   final String collectionId;
   final Mode mode;
@@ -114,15 +116,14 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
                       fontWeight: FontWeight.bold
                     ),
                   ),
+                  SizedBox(height: 16),
                   Form(
                     key: _form,
                     child: Column(
                       children: [
-                        TextFormField(
+                        CustomTextFormField(
                           controller: _nameController,
-                          decoration: InputDecoration(
-                            labelText: 'Nome da coleção'
-                          ),
+                          hint: 'Nome da coleção',
                           validator: (value) {
                             if (value!.trim().isEmpty) {
                               return 'O nome não pode ser vazio.';
@@ -132,12 +133,12 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
                           onSaved: (value) => _formData['name'] = value!,
                           textInputAction: TextInputAction.next,
                           textCapitalization: TextCapitalization.sentences,
+                          maxLength: 50,
                         ),
-                        TextFormField(
+                        SizedBox(height: 10),
+                        CustomTextFormField(
                           controller: _descriptionController,
-                          decoration: InputDecoration(
-                            labelText: 'Descrição da coleção'
-                          ),
+                          hint: 'Descrição da coleção',
                           validator: (value) {
                             if (value!.trim().isEmpty) {
                               return 'A descrição não pode ser vazia.';
@@ -147,6 +148,7 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
                           onSaved: (value) => _formData['description'] = value!,
                           textInputAction: TextInputAction.done,
                           textCapitalization: TextCapitalization.sentences,
+                          maxLength: 100,
                         ),
                       ],
                     ),

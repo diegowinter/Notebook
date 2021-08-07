@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notebook/providers/user.dart';
 
 import 'package:notebook/utils/app_routes.dart';
+import 'package:notebook/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
 
@@ -76,14 +77,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 fontSize: 28
               ),
             ),
+            SizedBox(height: 16),
             Form(
               key: _form,
               child: Column(
                 children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'E-mail'
-                    ),
+                  CustomTextFormField(
+                    hint: 'E-mail',
                     keyboardType: TextInputType.emailAddress,
                     enabled: !_isLoading,
                     validator: (value) {
@@ -94,11 +94,11 @@ class _AuthScreenState extends State<AuthScreen> {
                     },
                     onSaved: (value) => _formData['email'] = value!,
                     textInputAction: TextInputAction.next,
+                    maxLength: 100,
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Senha'
-                    ),
+                  SizedBox(height: 10),
+                  CustomTextFormField(
+                    hint: 'Senha',
                     obscureText: true,
                     enabled: !_isLoading,
                     validator: (value) {
@@ -108,6 +108,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     },
                     onSaved: (value) => _formData['password'] = value!,
                     textInputAction: TextInputAction.done,
+                    maxLength: 100,
                   )
                 ]
               ),
@@ -118,6 +119,9 @@ class _AuthScreenState extends State<AuthScreen> {
               : ElevatedButton(
                   child: Text('Entrar'),
                   onPressed: () => _onSave(),
+                  style: ElevatedButton.styleFrom(
+                    shape: StadiumBorder()
+                  ),
                 )
           ],
         ),
