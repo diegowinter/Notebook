@@ -5,6 +5,7 @@ import 'package:notebook/utils/Dialogs.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:notebook/widgets/add_collection_modal.dart';
+import 'package:notebook/widgets/empty_list_message.dart';
 import 'package:provider/provider.dart';
 
 enum ItemOptions {
@@ -146,8 +147,11 @@ class CollectionScreen extends StatelessWidget {
             return Consumer<Pages>(
               builder: (ctx, pages, child) {
                 if (pages.pagesCount == 0) {
-                  return Center(
-                    child: Text('As páginas desta coleção aparecerão aqui.'),
+                  return EmptyListMessage(
+                    icon: Icon(Icons.article),
+                    title: 'Ainda não há páginas',
+                    subtitle: 'Crie uma nova no botão +',
+                    onReloadPressed: () => _refreshPages(context, collectionId),
                   );
                 }
                 return RefreshIndicator(

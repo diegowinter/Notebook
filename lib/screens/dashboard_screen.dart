@@ -3,6 +3,7 @@ import 'package:notebook/providers/collections.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:notebook/widgets/add_collection_modal.dart';
+import 'package:notebook/widgets/empty_list_message.dart';
 import 'package:provider/provider.dart';
 
 enum ItemOptions {
@@ -123,7 +124,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             return Consumer<Collections>(
               builder: (ctx, collections, child) {
                 if (collections.itemsCount == 0) {
-                  return Center(child: Text('As coleções aparecerão aqui.'));
+                  return EmptyListMessage(
+                    icon: Icon(Icons.book),
+                    title: 'Ainda não há coleções',
+                    subtitle: 'Crie uma nova no botão +',
+                    onReloadPressed: _refreshCollections,
+                  );
                 }
                 return RefreshIndicator(
                   onRefresh: () => _refreshCollections(),
