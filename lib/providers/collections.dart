@@ -54,11 +54,9 @@ class Collections with ChangeNotifier {
         'https://notebook-77031-default-rtdb.firebaseio.com/collections/$_userId.json?auth=$_token'
       ),
     );
-    Map<String, dynamic> data = json.decode(response.body);
-    _collections.clear();
 
-    print(data);
-    data.forEach((collectionId, collectionData) {
+    _collections.clear();
+    json.decode(response.body)!.forEach((collectionId, collectionData) {
       _collections.add(Collection(
         id: collectionId,
         title: collectionData['name'],

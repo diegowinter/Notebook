@@ -59,7 +59,7 @@ class Pages with ChangeNotifier {
     }
 
     _pages.clear();
-    json.decode(response.body).forEach((pageId, pageData) {
+    json.decode(response.body)!.forEach((pageId, pageData) {
       _pages.add(CollectionPage(
         pageId: pageId,
         collectionId: collectionId,
