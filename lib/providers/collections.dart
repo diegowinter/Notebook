@@ -55,15 +55,20 @@ class Collections with ChangeNotifier {
       ),
     );
 
-    _collections.clear();
-    json.decode(response.body)!.forEach((collectionId, collectionData) {
-      _collections.add(Collection(
-        id: collectionId,
-        title: collectionData['name'],
-        description: collectionData['description']
-      ));
-    });
-    notifyListeners();
+    final responseBody = json.decode(response.body);
+
+    if (responseBody != null) {
+      _collections.clear();
+      responseBody.forEach((collectionId, collectionData) {
+        _collections.add(Collection(
+          id: collectionId,
+          title: collectionData['name'],
+          description: collectionData['description']
+        ));
+      });
+      notifyListeners();
+    }
+    
     
     return Future.value();
   }

@@ -58,16 +58,20 @@ class Pages with ChangeNotifier {
       throw 'Ocorreu um erro ao carregar as páginas';
     }
 
-    _pages.clear();
-    json.decode(response.body)!.forEach((pageId, pageData) {
-      _pages.add(CollectionPage(
-        pageId: pageId,
-        collectionId: collectionId,
-        title: pageData['title'],
-        content: pageData['content']
-      ));
-    });
-    notifyListeners();
+    final responseBody = json.decode(response.body);
+
+    if (responseBody != null) {
+      _pages.clear();
+      responseBody.forEach((pageId, pageData) {
+        _pages.add(CollectionPage(
+          pageId: pageId,
+          collectionId: collectionId,
+          title: pageData['title'],
+          content: pageData['content']
+        ));
+      });
+      notifyListeners();
+    }
 
     return Future.value();
   }
