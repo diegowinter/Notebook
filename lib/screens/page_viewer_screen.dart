@@ -84,6 +84,7 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
           : [
               PopupMenuButton(
                 icon: Icon(Icons.more_vert),
+                tooltip: 'Opções da página',
                 onSelected: (value) {
                   value == ItemOptions.Edit
                     ? _editPage(context, displayingPage.collectionId, displayingPage)

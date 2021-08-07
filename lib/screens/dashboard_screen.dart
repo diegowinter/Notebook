@@ -84,14 +84,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: Text('Coleções'),
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () => Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH),
-          )
+            icon: Icon(Icons.add),
+            tooltip: 'Nova coleção',
+            onPressed: () => _newCollectionModal(),
+          ),
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            tooltip: 'Mais opções',
+            itemBuilder: (ctx) => [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.logout),
+                    SizedBox(width: 20),
+                    Text('Desconectar')
+                  ],
+                ),
+              )
+            ],
+          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _newCollectionModal(),
       ),
       body: Center(
         child: FutureBuilder(
@@ -121,6 +133,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         subtitle: Text(collections.collections[index].description),
                         trailing: PopupMenuButton(
                           icon: Icon(Icons.more_vert),
+                          tooltip: 'Opções da coleção',
                           onSelected: (value) {
                             value == ItemOptions.Edit
                               ? _editCollection(collections.collections[index].id)

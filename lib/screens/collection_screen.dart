@@ -90,8 +90,22 @@ class CollectionScreen extends StatelessWidget {
           ],
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            tooltip: 'Nova página',
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                AppRoutes.PAGE_COMPOSER,
+                arguments: {
+                  'collectionId': collectionId,
+                  'mode': Mode.CREATE
+                }
+              );
+            },
+          ),
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
+            tooltip: 'Opções da coleção',
             onSelected: (value) {
               value == ItemOptions.Edit
                 ? _editCollection(context, collectionId)
@@ -122,18 +136,6 @@ class CollectionScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            AppRoutes.PAGE_COMPOSER,
-            arguments: {
-              'collectionId': collectionId,
-              'mode': Mode.CREATE
-            }
-          );
-        },
-      ),
       body: Center(
         child: FutureBuilder(
           future: Provider.of<Pages>(context, listen: false).loadPages(collectionId),
@@ -161,6 +163,7 @@ class CollectionScreen extends StatelessWidget {
                         title: Text(pages.pages[index].title),
                         trailing: PopupMenuButton(
                           icon: Icon(Icons.more_vert),
+                          tooltip: 'Opções da página',
                           onSelected: (value) {
                             value == ItemOptions.Edit
                               ? _editPage(context, pages.pages[index])
