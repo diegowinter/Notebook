@@ -40,7 +40,7 @@ class CustomTextFormField extends StatelessWidget {
         keyboardType: keyboardType,
         enabled: enabled,
         decoration: InputDecoration(
-          fillColor: backgroundColor,
+          // fillColor: backgroundColor,
           filled: true,
           hintText: hint,
           border: OutlineInputBorder(

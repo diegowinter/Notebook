@@ -113,7 +113,6 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Conteúdo',
-                      fillColor: Color.fromRGBO(66, 66, 66, 1),
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),

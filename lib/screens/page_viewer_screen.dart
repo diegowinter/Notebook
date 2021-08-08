@@ -40,7 +40,9 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
       }
     ).then((value) {
       setState(() { 
-        displayingPage = value as CollectionPage;
+        if (value != null) {
+          displayingPage = value as CollectionPage;
+        }
       });
     });
   }
@@ -133,6 +135,13 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                   )
                 )
               ),
+              code: TextStyle(
+                backgroundColor: Theme.of(context).inputDecorationTheme.fillColor
+              ),
+              codeblockDecoration: BoxDecoration(
+                color: Theme.of(context).inputDecorationTheme.fillColor,
+                borderRadius: BorderRadius.circular(3)
+              )
             ),
       )
     );

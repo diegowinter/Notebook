@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/providers/collections.dart';
+import 'package:notebook/providers/preferences.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:notebook/widgets/add_collection_modal.dart';
@@ -51,6 +52,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Future<void> _showThemeChooser(BuildContext context) async {
+    final preferences = Provider.of<Preferences>(context, listen: false);
+    await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Escolha um tema'),
+        contentPadding: const EdgeInsets.only(top: 16),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioListTile(
+              title: Text('Tema claro'),
+              value: ThemeMode.light,
+              groupValue: preferences.themeMode,
+              onChanged: preferences.setThemeMode
+            ),
+            RadioListTile(
+              title: Text('Tema escuro'),
+              value: ThemeMode.dark,
+              groupValue: preferences.themeMode,
+              onChanged: preferences.setThemeMode,
+            ),
+            RadioListTile(
+              title: Text('Tema atual do sistema'),
+              value: ThemeMode.system,
+              groupValue: preferences.themeMode,
+              onChanged: preferences.setThemeMode
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            child: Text('Fechar'),
+            onPressed: () => Navigator.of(context).pop(true),
+          )
+        ],
+      )
+    );
+  }
+
   void _editCollection(String collectionId) {
     showModalBottomSheet(
       context: context,
@@ -93,11 +134,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
             icon: Icon(Icons.more_vert),
             tooltip: 'Mais opções',
             onSelected: (value) {
-              if (value == 1) {
+              if (value == 0) {
+                _showThemeChooser(context);
+              } else {
                 Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH);
               }
             },
             itemBuilder: (ctx) => [
+              PopupMenuItem(
+                child: Row(
+                  children: [
+                    Icon(Icons.light_mode),
+                    SizedBox(width: 20),
+                    Text('Alterar tema')
+                  ],
+                ),
+                value: 0,
+              ),
               PopupMenuItem(
                 child: Row(
                   children: [
@@ -107,7 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
                 value: 1,
-              )
+              ),
             ],
           ),
         ],
