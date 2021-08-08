@@ -73,6 +73,11 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Fechar editor',
+        ),
         title: Text(
           widget.mode == Mode.CREATE
             ? 'Nova página'

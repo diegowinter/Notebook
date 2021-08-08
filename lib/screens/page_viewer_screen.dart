@@ -63,6 +63,11 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Voltar',
+        ),
         title: displayingPage.pageId.isEmpty
           ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,

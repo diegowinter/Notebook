@@ -75,6 +75,11 @@ class CollectionScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Voltar',
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
