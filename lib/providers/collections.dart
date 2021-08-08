@@ -67,8 +67,10 @@ class Collections with ChangeNotifier {
         ));
       });
       notifyListeners();
+    } else {
+      _collections.clear();
+      notifyListeners();
     }
-    
     
     return Future.value();
   }

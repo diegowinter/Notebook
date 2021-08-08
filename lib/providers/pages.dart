@@ -71,6 +71,9 @@ class Pages with ChangeNotifier {
         ));
       });
       notifyListeners();
+    } else {
+      _pages.clear();
+      notifyListeners();
     }
 
     return Future.value();
