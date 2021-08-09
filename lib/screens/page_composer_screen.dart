@@ -122,6 +122,7 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                   validator: (value) {
                     return null;
                   },
+                  textCapitalization: TextCapitalization.sentences,
                 ),
                 SizedBox(height: 10),
                 Expanded(
@@ -142,7 +143,8 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                     controller: _contentController,
                     buildCounter: (_, {required currentLength, required isFocused, maxLength }) {
                       return Text(currentLength.toString());
-                    } 
+                    },
+                    textCapitalization: TextCapitalization.sentences,
                   ),
                 ),
                 Row(
