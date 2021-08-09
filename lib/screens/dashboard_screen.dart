@@ -3,6 +3,7 @@ import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/preferences.dart';
 import 'package:notebook/providers/user.dart';
 import 'package:notebook/utils/app_routes.dart';
+import 'package:notebook/utils/dialogs.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:notebook/widgets/add_collection_modal.dart';
 import 'package:notebook/widgets/empty_list_message.dart';
@@ -33,26 +34,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Future<bool> _showDeleteConfirmationDialog(BuildContext context) async {
-    return await showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Excluir coleção'),
-        content: Text('Tem certeza que deseja excluir esta coleção?'),
-        actions: [
-          TextButton(
-            child: Text('Não'),
-            onPressed: () => Navigator.of(context).pop(false),
-          ),
-          TextButton(
-            child: Text('Sim'),
-            onPressed: () => Navigator.of(context).pop(true),
-          )
-        ],
-      )
-    );
-  }
-
   void _editCollection(String collectionId) {
     showModalBottomSheet(
       context: context,
@@ -68,7 +49,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _deleteCollection(BuildContext context, String collectionId) async {
-    bool confirmation = await _showDeleteConfirmationDialog(context);
+    bool confirmation = await Dialogs.confirmationDialog(
+      context: context,
+      title: 'Excluir coleção',
+      content: 'Tem certeza que deseja excluir esta coleção?'
+    );
     if (confirmation) {
       Provider.of<Collections>(context, listen: false).deleteCollection(collectionId);
     }
