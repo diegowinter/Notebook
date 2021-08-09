@@ -104,11 +104,15 @@ class Collections with ChangeNotifier {
       _collections.remove(collection);
       notifyListeners();
 
-      final response = await http.delete(
+      final collectionResponse = await http.delete(
         Uri.parse('${Constants.FIREBASE_URL}/collections/$_userId/$collectionId.json?auth=$_token')
       );
 
-      if (response.statusCode != 200) {
+      final pagesResponse = await http.delete(
+        Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/$collectionId.json?auth=$_token')
+      );
+
+      if (collectionResponse.statusCode != 200 || pagesResponse.statusCode != 200) {
         _collections.insert(index, collection);
         notifyListeners();
         throw 'Ocorreu um erro ao excluir a coleção';
