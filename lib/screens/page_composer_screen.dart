@@ -161,8 +161,12 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                           content: _contentController.text
                         )
                       ),
+                      style: ElevatedButton.styleFrom(
+                        shape: StadiumBorder()
+                      ),
                     ),
-                    TextButton(
+                    SizedBox(width: 10),
+                    ElevatedButton(
                       child: Text('Salvar'),
                       onPressed: () {
                         if (widget.mode == Mode.CREATE) {
@@ -170,7 +174,10 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                         } else {
                           _savePageEdit(widget.collectionPage!.pageId, _titleController.text, _contentController.text);
                         }
-                      }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: StadiumBorder()
+                      ),
                     ),
                   ],
                 )

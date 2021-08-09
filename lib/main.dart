@@ -67,8 +67,8 @@ class MyApp extends StatelessWidget {
             ),
             iconTheme: IconThemeData(
               color: Colors.black
-            )
-            // textButtonTheme: 
+            ),
+            materialTapTargetSize: MaterialTapTargetSize.padded
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
@@ -78,7 +78,8 @@ class MyApp extends StatelessWidget {
             inputDecorationTheme: InputDecorationTheme(
               fillColor: Colors.grey[800],
               filled: true
-            )
+            ),
+            materialTapTargetSize: MaterialTapTargetSize.padded
           ),
           themeMode: preferences.themeMode,
           debugShowCheckedModeBanner: false,

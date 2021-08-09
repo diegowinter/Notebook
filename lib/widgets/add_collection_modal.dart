@@ -155,14 +155,19 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       TextButton(
                         child: Text('Cancelar'),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
+                        style: TextButton.styleFrom(
+                          shape: StadiumBorder(),
+                        ),
                       ),
-                      TextButton(
+                      SizedBox(width: 10),
+                      ElevatedButton(
                         child: Text(widget.mode == Mode.CREATE
                           ? 'Adicionar'
                           : 'Atualizar'
@@ -172,6 +177,9 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
                             ? await _addCollection()
                             : await _editCollection();
                         },
+                        style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder()
+                        ),
                       )
                     ],
                   ),
