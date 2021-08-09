@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:notebook/utils/constants.dart';
 import 'package:notebook/utils/storage.dart';
 
 class User with ChangeNotifier{
@@ -16,7 +17,7 @@ class User with ChangeNotifier{
   Future<void> login(String? email, String? password) async {
     final response = await http.post(
       Uri.parse(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEOwKC9RRJMZ8HcbJpo0GY8OpavGS-Jmg'
+        '${Constants.FIREBASE_AUTH_URL}:signInWithPassword?key=${Constants.FIREBASE_API_KEY}'
       ),
       body: json.encode({
         'email': email,
@@ -92,7 +93,7 @@ class User with ChangeNotifier{
 
   Future<void> updateToken() async {
     final response = await http.post(
-      Uri.parse('https://securetoken.googleapis.com/v1/token?key=AIzaSyBEOwKC9RRJMZ8HcbJpo0GY8OpavGS-Jmg'),
+      Uri.parse('${Constants.FIREBASE_REFRESH_TOKEN_URL}?key=${Constants.FIREBASE_API_KEY}'),
       body: json.encode({
         'grant_type': 'refresh_token',
         'refresh_token': _refreshToken

@@ -26,7 +26,7 @@ class Collections with ChangeNotifier {
   Future<void> addCollection(String name, String description) async {
     final response = await http.post(
       Uri.parse(
-        'https://notebook-77031-default-rtdb.firebaseio.com/collections/$_userId.json?auth=$_token'
+        '${Constants.FIREBASE_URL}/collections/$_userId.json?auth=$_token'
       ),
       body: json.encode({
         'name': name,
@@ -51,7 +51,7 @@ class Collections with ChangeNotifier {
   Future<void> loadCollections() async {
     final response = await http.get(
       Uri.parse(
-        'https://notebook-77031-default-rtdb.firebaseio.com/collections/$_userId.json?auth=$_token'
+        '${Constants.FIREBASE_URL}/collections/$_userId.json?auth=$_token'
       ),
     );
 

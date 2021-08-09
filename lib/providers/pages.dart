@@ -29,7 +29,7 @@ class Pages with ChangeNotifier {
     final String pageTitle = title.isNotEmpty ? title : 'Página sem título';
 
     final response = await http.post(
-      Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/pages/$_userId/$collectionId.json?auth=$_token'),
+      Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/$collectionId.json?auth=$_token'),
       body: json.encode({
         'title': pageTitle,
         'content': content
@@ -53,7 +53,7 @@ class Pages with ChangeNotifier {
 
   Future<void> loadPages(String collectionId) async {
     final response = await http.get(
-      Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/pages/$_userId/$collectionId.json?auth=$_token'),
+      Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/$collectionId.json?auth=$_token'),
     );
 
     if (response.statusCode != 200) {
