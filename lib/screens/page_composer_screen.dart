@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/providers/pages.dart';
 import 'package:notebook/utils/app_routes.dart';
+import 'package:notebook/utils/dialogs.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:notebook/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +76,16 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.close),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () async {
+            bool confirmation = await Dialogs.confirmationDialog(
+              context: context,
+              title: 'Sair do editor',
+              content: 'Tem certeza que deseja sair sem salvar suas alterações?'
+            );
+            if (confirmation) {
+              Navigator.of(context).pop();
+            }
+          },
           tooltip: 'Fechar editor',
         ),
         title: Text(
