@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/providers/collections.dart';
 import 'package:notebook/providers/preferences.dart';
+import 'package:notebook/providers/user.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:notebook/widgets/add_collection_modal.dart';
@@ -137,6 +138,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               if (value == 0) {
                 _showThemeChooser(context);
               } else {
+                Provider.of<User>(context, listen: false).logout();
                 Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH);
               }
             },

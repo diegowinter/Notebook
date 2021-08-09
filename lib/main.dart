@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/screens/auth_or_home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -81,8 +82,8 @@ class MyApp extends StatelessWidget {
           ),
           themeMode: preferences.themeMode,
           debugShowCheckedModeBanner: false,
-          home: AuthScreen(),
           routes: {
+            AppRoutes.AUTH_OR_HOME: (ctx) => AuthOrHome(),
             AppRoutes.AUTH: (ctx) => AuthScreen(),
             AppRoutes.DASHBOARD: (ctx) => DashboardScreen(),
             // AppRoutes.COLLECTION: (ctx) => CollectionScreen(),
