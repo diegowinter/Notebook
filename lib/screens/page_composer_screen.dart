@@ -34,11 +34,11 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
       Navigator.of(context).pop(CollectionPage(
         pageId: pageId,
         collectionId: widget.collectionId,
-        title: newTitle,
+        title: newTitle.isNotEmpty ? newTitle : 'Página sem título',
         content: newContent
       ));
     } catch (error) {
-
+      print(error);
     }
     setState(() {
       _isLoading = false;

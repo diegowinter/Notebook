@@ -26,10 +26,12 @@ class Pages with ChangeNotifier {
   Pages(this._userId, this._token, this._pages);
 
   Future<void> addPage(String collectionId, String title, String content) async {
+    final String pageTitle = title.isNotEmpty ? title : 'Página sem título';
+
     final response = await http.post(
       Uri.parse('https://notebook-77031-default-rtdb.firebaseio.com/pages/$_userId/$collectionId.json?auth=$_token'),
       body: json.encode({
-        'title': title,
+        'title': pageTitle,
         'content': content
       })
     );
@@ -43,7 +45,7 @@ class Pages with ChangeNotifier {
     _pages.add(CollectionPage(
       pageId: responseBody['name'],
       collectionId: collectionId,
-      title: title,
+      title: pageTitle,
       content: content
     ));
     notifyListeners();
@@ -80,6 +82,8 @@ class Pages with ChangeNotifier {
   }
 
   Future<void> updatePage(String pageId, String newTitle, String newContent) async {
+    final String newPageTitle = newTitle.isNotEmpty ? newTitle : 'Página sem título';
+
     final int index = _pages.indexWhere((page) => page.pageId == pageId);
     if (index >= 0) {
       final page = _pages[index];
@@ -87,7 +91,7 @@ class Pages with ChangeNotifier {
       _pages.insert(index, CollectionPage(
         pageId: pageId,
         collectionId: page.collectionId,
-        title: newTitle,
+        title: newPageTitle,
         content: newContent
       ));
       notifyListeners();
@@ -95,7 +99,7 @@ class Pages with ChangeNotifier {
       await http.patch(
         Uri.parse('${Constants.FIREBASE_URL}/pages/$_userId/${page.collectionId}/$pageId.json?auth=$_token'),
         body: json.encode({
-          'title': newTitle,
+          'title': newPageTitle,
           'content': newContent
         })
       );
