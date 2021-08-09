@@ -5,4 +5,5 @@ class AppRoutes {
   static const COLLECTION = '/collection';
   static const PAGE_COMPOSER = '/page_composer';
   static const PAGE_VIEWER = '/page_viewer';
+  static const SETTINGS = '/settings';
 }

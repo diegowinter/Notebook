@@ -53,46 +53,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Future<void> _showThemeChooser(BuildContext context) async {
-    final preferences = Provider.of<Preferences>(context, listen: false);
-    await showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Escolha um tema'),
-        contentPadding: const EdgeInsets.only(top: 16),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            RadioListTile(
-              title: Text('Tema claro'),
-              value: ThemeMode.light,
-              groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode
-            ),
-            RadioListTile(
-              title: Text('Tema escuro'),
-              value: ThemeMode.dark,
-              groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode,
-            ),
-            RadioListTile(
-              title: Text('Tema atual do sistema'),
-              value: ThemeMode.system,
-              groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            child: Text('Fechar'),
-            onPressed: () => Navigator.of(context).pop(true),
-          )
-        ],
-      )
-    );
-  }
-
   void _editCollection(String collectionId) {
     showModalBottomSheet(
       context: context,
@@ -136,7 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             tooltip: 'Mais opções',
             onSelected: (value) {
               if (value == 0) {
-                _showThemeChooser(context);
+                Navigator.of(context).pushNamed(AppRoutes.SETTINGS);
               } else {
                 Provider.of<User>(context, listen: false).logout();
                 Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH);
@@ -146,9 +106,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               PopupMenuItem(
                 child: Row(
                   children: [
-                    Icon(Icons.light_mode),
+                    Icon(Icons.settings),
                     SizedBox(width: 20),
-                    Text('Alterar tema')
+                    Text('Configurações')
                   ],
                 ),
                 value: 0,
