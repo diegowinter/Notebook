@@ -25,19 +25,21 @@ void main() async {
           create: (_) => new User(),
         ),
         ChangeNotifierProxyProvider<User, Collections>(
-          create: (_) => new Collections('', '', []),
+          create: (_) => new Collections('', '', [], null),
           update: (ctx, user, previousCollections) => new Collections(
             user.token,
             user.id,
-            previousCollections!.collections
+            previousCollections!.collections,
+            user.expiryDate
           ) ,
         ),
         ChangeNotifierProxyProvider<User, Pages>(
-          create: (_) => new Pages('', '', []),
+          create: (_) => new Pages('', '', [], null),
           update: (ctx, user, previousPages) => new Pages(
             user.id,
             user.token,
-            previousPages!.pages
+            previousPages!.pages,
+            user.expiryDate
           ),
         ),
         ChangeNotifierProvider(

@@ -110,8 +110,6 @@ class User with ChangeNotifier{
         seconds: int.parse(responseBody['expires_in'])
       ));
 
-      print(_expiryDate);
-
       Storage.saveMap('userData', {
         'id': _id,
         'email': _email,
@@ -121,6 +119,7 @@ class User with ChangeNotifier{
       });
 
       notifyListeners();
+      _autoUpdateToken();
     }
   }
 
@@ -160,5 +159,9 @@ class User with ChangeNotifier{
 
   String get refreshToken {
     return _refreshToken;
+  }
+
+  DateTime? get expiryDate {
+    return _expiryDate;
   }
 }

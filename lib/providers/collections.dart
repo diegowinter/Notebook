@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:notebook/providers/user.dart';
 import 'package:notebook/utils/constants.dart';
 
 class Collection {
@@ -20,8 +21,9 @@ class Collections with ChangeNotifier {
   List<Collection> _collections = [];
   String _token;
   String _userId;
+  DateTime? _expiryDate;
 
-    Collections(this._token, this._userId, this._collections);
+  Collections(this._token, this._userId, this._collections, this._expiryDate);
 
   Future<void> addCollection(String name, String description) async {
     final response = await http.post(
@@ -49,6 +51,12 @@ class Collections with ChangeNotifier {
   }
 
   Future<void> loadCollections() async {
+    if (_expiryDate!.isBefore(DateTime.now())) {
+      
+    }
+
+    print(_expiryDate);
+
     final response = await http.get(
       Uri.parse(
         '${Constants.FIREBASE_URL}/collections/$_userId.json?auth=$_token'

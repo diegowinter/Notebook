@@ -22,8 +22,9 @@ class Pages with ChangeNotifier {
   String _userId;
   String _token;
   List<CollectionPage> _pages = [];
+  DateTime? _expiryDate;
 
-  Pages(this._userId, this._token, this._pages);
+  Pages(this._userId, this._token, this._pages, this._expiryDate);
 
   Future<void> addPage(String collectionId, String title, String content) async {
     final String pageTitle = title.isNotEmpty ? title : 'Página sem título';
