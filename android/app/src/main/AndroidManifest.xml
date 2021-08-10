@@ -2,7 +2,7 @@
     package="com.example.notebook">
    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="notebook"
+        android:label="Notebook"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
