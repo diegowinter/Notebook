@@ -147,6 +147,7 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
                     textCapitalization: TextCapitalization.sentences,
                   ),
                 ),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
