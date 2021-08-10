@@ -14,10 +14,10 @@ class User with ChangeNotifier{
   String _refreshToken = '';
   Timer? _updateTokenTimer;
 
-  Future<void> login(String? email, String? password) async {
+  Future<void> _authenticate(String? email, String? password, String urlSegment) async {
     final response = await http.post(
       Uri.parse(
-        '${Constants.FIREBASE_AUTH_URL}:signInWithPassword?key=${Constants.FIREBASE_API_KEY}'
+        '${Constants.FIREBASE_AUTH_URL}:$urlSegment?key=${Constants.FIREBASE_API_KEY}'
       ),
       body: json.encode({
         'email': email,
@@ -34,6 +34,8 @@ class User with ChangeNotifier{
           throw 'Senha incorreta.';
         case 'EMAIL_NOT_FOUND':
           throw 'E-mail não encontrado.';
+        case 'EMAIL_EXISTS':
+          throw 'E-mail já cadastrado.';
         default:
           throw 'Ocorreu um erro';
       }
@@ -57,6 +59,14 @@ class User with ChangeNotifier{
       _autoUpdateToken();
       notifyListeners();
     }
+  }
+
+  Future<void> login(String? email, String? password) async {
+    return _authenticate(email, password, 'signInWithPassword');
+  }
+
+  Future<void> register(String? email, String? password) async {
+    return _authenticate(email, password, 'signUp');
   }
 
   bool get isAuth {

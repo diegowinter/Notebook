@@ -5,7 +5,6 @@ import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
-
 class AuthScreen extends StatefulWidget {
   const AuthScreen({ Key? key }) : super(key: key);
 
@@ -14,6 +13,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  bool _isSignUp = false;
   bool _isLoading = false;
   GlobalKey<FormState> _form = GlobalKey();
   Map<String, String> _formData = {
@@ -51,8 +51,13 @@ class _AuthScreenState extends State<AuthScreen> {
     });
 
     try {
-      await Provider.of<User>(context, listen: false)
-        .login(_formData['email'], _formData['password']);
+      if (_isSignUp) {
+        await Provider.of<User>(context, listen: false)
+            .register(_formData['email'], _formData['password']);
+      } else {
+        await Provider.of<User>(context, listen: false)
+            .login(_formData['email'], _formData['password']);
+      }
       Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
     } catch (error) {
       _showDialog(error.toString());
@@ -117,11 +122,32 @@ class _AuthScreenState extends State<AuthScreen> {
             _isLoading
               ? Center(child: CircularProgressIndicator())
               : ElevatedButton(
-                  child: Text('Entrar'),
+                  child: Text(_isSignUp
+                      ? 'Cadastrar'
+                      : 'Entrar'
+                    ),
                   onPressed: () => _onSave(),
                   style: ElevatedButton.styleFrom(
                     shape: StadiumBorder()
                   ),
+                ),
+            SizedBox(height: 10),
+            _isSignUp
+              ? GestureDetector(
+                  child: Text('Já possui conta? Entrar.'),
+                  onTap: () {
+                    setState(() {
+                      _isSignUp = false;
+                    });
+                  },
+                )
+              : GestureDetector(
+                  child: Text('Não possui conta? Cadastre-se.'),
+                  onTap: () {
+                    setState(() {
+                      _isSignUp = true;
+                    });
+                  },
                 )
           ],
         ),
