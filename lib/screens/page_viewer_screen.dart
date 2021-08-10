@@ -6,6 +6,7 @@ import 'package:notebook/utils/Dialogs.dart';
 import 'package:notebook/utils/app_routes.dart';
 import 'package:notebook/utils/mode.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum ItemOptions {
   Edit,
@@ -129,6 +130,7 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
           md.ExtensionSet.gitHubFlavored.blockSyntaxes,
           [...md.ExtensionSet.gitHubFlavored.inlineSyntaxes]
         ),
+        onTapLink: (text, href, title) => launch(href ?? ''),
         styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
             .copyWith(
               blockquotePadding: EdgeInsets.only(left: 14),
