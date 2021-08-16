@@ -8,6 +8,7 @@ import '../providers/pages.dart';
 import '../utils/Dialogs.dart';
 import '../utils/app_routes.dart';
 import '../utils/mode.dart';
+import '../widgets/custom_scaffold.dart';
 
 enum ItemOptions {
   Edit,
@@ -67,36 +68,24 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-          tooltip: 'Voltar',
-        ),
-        title: displayingPage.pageId.isEmpty
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    displayingPage.title.isEmpty
-                        ? 'Página sem título'
-                        : displayingPage.title,
-                  ),
-                  Text(
-                    'Pré-visualização',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  )
-                ],
-              )
-            : Text(displayingPage.title),
-        actions: displayingPage.pageId.isEmpty
-            ? []
-            : [
-                PopupMenuButton(
+    return CustomScaffold(
+      leading: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: BoxConstraints(),
+        icon: Icon(Icons.arrow_back),
+        onPressed: () => Navigator.of(context).pop(),
+        tooltip: 'Voltar',
+      ),
+      title: displayingPage.title.isEmpty
+          ? 'Página sem título'
+          : displayingPage.title,
+      actions: displayingPage.pageId.isEmpty
+          ? []
+          : [
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 30.0, maxWidth: 16.0),
+                child: PopupMenuButton(
+                  padding: EdgeInsets.zero,
                   icon: Icon(Icons.more_vert),
                   tooltip: 'Opções da página',
                   onSelected: (value) {
@@ -134,8 +123,8 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                     ),
                   ],
                 ),
-              ],
-      ),
+              ),
+            ],
       body: Markdown(
         data: displayingPage.content,
         selectable: true,
