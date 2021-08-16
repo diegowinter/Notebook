@@ -76,6 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return CustomScaffold(
       title: 'Cadernos',
       actions: [
@@ -95,41 +97,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         SizedBox(width: 16),
         ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 30.0, maxWidth: 16.0),
-          child: PopupMenuButton(
-            padding: EdgeInsets.zero,
-            icon: Icon(Icons.more_vert),
-            tooltip: 'Mais opções',
-            onSelected: (value) {
-              if (value == 0) {
-                Navigator.of(context).pushNamed(AppRoutes.SETTINGS);
-              } else {
-                Provider.of<User>(context, listen: false).logout();
-                Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH);
-              }
+          constraints: BoxConstraints(maxHeight: 28, maxWidth: 28),
+          child: GestureDetector(
+            child: CircleAvatar(
+              child: Text(user.email.substring(0, 1)),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes.SETTINGS);
             },
-            itemBuilder: (ctx) => [
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.settings),
-                    SizedBox(width: 20),
-                    Text('Configurações')
-                  ],
-                ),
-                value: 0,
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(width: 20),
-                    Text('Desconectar')
-                  ],
-                ),
-                value: 1,
-              ),
-            ],
           ),
         ),
       ],
