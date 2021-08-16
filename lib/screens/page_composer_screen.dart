@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/widgets/custom_scaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/pages.dart';
@@ -84,27 +85,24 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () async {
-            bool confirmation = await Dialogs.confirmationDialog(
-              context: context,
-              title: 'Sair do editor',
-              content:
-                  'Tem certeza que deseja sair sem salvar suas alterações?',
-            );
-            if (confirmation) {
-              Navigator.of(context).pop();
-            }
-          },
-          tooltip: 'Fechar editor',
-        ),
-        title: Text(
-          widget.mode == Mode.CREATE ? 'Nova página' : 'Editar página',
-        ),
+    return CustomScaffold(
+      leading: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: BoxConstraints(),
+        icon: Icon(Icons.close),
+        onPressed: () async {
+          bool confirmation = await Dialogs.confirmationDialog(
+            context: context,
+            title: 'Sair do editor',
+            content: 'Tem certeza que deseja sair sem salvar suas alterações?',
+          );
+          if (confirmation) {
+            Navigator.of(context).pop();
+          }
+        },
+        tooltip: 'Fechar editor',
       ),
+      title: widget.mode == Mode.CREATE ? 'Nova página' : 'Editar página',
       body: _isLoading
           ? Center(
               child: Column(
@@ -120,7 +118,7 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
               ],
             ))
           : Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
