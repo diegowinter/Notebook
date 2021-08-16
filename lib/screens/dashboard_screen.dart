@@ -6,6 +6,7 @@ import '../providers/user.dart';
 import '../utils/app_routes.dart';
 import '../utils/dialogs.dart';
 import '../utils/mode.dart';
+import '../widgets/custom_scaffold.dart';
 import '../widgets/add_collection_modal.dart';
 import '../widgets/empty_list_message.dart';
 
@@ -75,16 +76,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Coleções'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            tooltip: 'Nova coleção',
-            onPressed: () => _newCollectionModal(),
-          ),
-          PopupMenuButton(
+    return CustomScaffold(
+      title: 'Coleções',
+      actions: [
+        // ConstrainedBox(
+        //   constraints: BoxConstraints(maxHeight: 32, maxWidth: 32),
+        //   child: CircleAvatar(
+        //     child: Text('DW'),
+        //   ),
+        // ),
+        SizedBox(width: 16),
+        IconButton(
+          icon: Icon(Icons.add),
+          tooltip: 'Nova coleção',
+          onPressed: () => _newCollectionModal(),
+          padding: EdgeInsets.zero,
+          constraints: BoxConstraints(),
+        ),
+        SizedBox(width: 16),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 30.0, maxWidth: 16.0),
+          child: PopupMenuButton(
+            padding: EdgeInsets.zero,
             icon: Icon(Icons.more_vert),
             tooltip: 'Mais opções',
             onSelected: (value) {
@@ -118,8 +131,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
       body: Center(
         child: FutureBuilder(
           future: _collections,
@@ -142,53 +155,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 return RefreshIndicator(
                   onRefresh: () => _refreshCollections(),
                   child: ListView.builder(
+                    padding: EdgeInsets.zero,
                     itemCount: collections.itemsCount,
-                    itemBuilder: (ctx, index) => Card(
-                      child: ListTile(
-                        leading: Container(
-                          height: double.infinity,
-                          child: Icon(Icons.book),
-                        ),
-                        title: Text(collections.collections[index].title),
-                        subtitle: Text(
-                          collections.collections[index].description,
-                        ),
-                        trailing: PopupMenuButton(
-                          icon: Icon(Icons.more_vert),
-                          tooltip: 'Opções da coleção',
-                          onSelected: (value) {
-                            value == ItemOptions.Edit
-                                ? _editCollection(
-                                    collections.collections[index].id)
-                                : _deleteCollection(
-                                    context, collections.collections[index].id);
-                          },
-                          itemBuilder: (_) => [
-                            PopupMenuItem(
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.edit),
-                                    SizedBox(width: 20),
-                                    Text('Editar coleção'),
-                                  ],
-                                ),
-                                value: ItemOptions.Edit),
-                            PopupMenuItem(
+                    itemBuilder: (ctx, index) => ListTile(
+                      leading: Container(
+                        height: double.infinity,
+                        child: Icon(Icons.book),
+                      ),
+                      title: Text(collections.collections[index].title),
+                      subtitle: Text(
+                        collections.collections[index].description,
+                      ),
+                      trailing: PopupMenuButton(
+                        icon: Icon(Icons.more_vert),
+                        tooltip: 'Opções da coleção',
+                        onSelected: (value) {
+                          value == ItemOptions.Edit
+                              ? _editCollection(
+                                  collections.collections[index].id)
+                              : _deleteCollection(
+                                  context, collections.collections[index].id);
+                        },
+                        itemBuilder: (_) => [
+                          PopupMenuItem(
                               child: Row(
                                 children: [
-                                  Icon(Icons.delete),
+                                  Icon(Icons.edit),
                                   SizedBox(width: 20),
-                                  Text('Excluir coleção'),
+                                  Text('Editar coleção'),
                                 ],
                               ),
-                              value: ItemOptions.Delete,
-                            )
-                          ],
-                        ),
-                        onTap: () => Navigator.of(context).pushNamed(
-                          AppRoutes.COLLECTION,
-                          arguments: collections.collections[index].id,
-                        ),
+                              value: ItemOptions.Edit),
+                          PopupMenuItem(
+                            child: Row(
+                              children: [
+                                Icon(Icons.delete),
+                                SizedBox(width: 20),
+                                Text('Excluir coleção'),
+                              ],
+                            ),
+                            value: ItemOptions.Delete,
+                          )
+                        ],
+                      ),
+                      onTap: () => Navigator.of(context).pushNamed(
+                        AppRoutes.COLLECTION,
+                        arguments: collections.collections[index].id,
                       ),
                     ),
                   ),
