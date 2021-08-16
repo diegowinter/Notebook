@@ -1,4 +1,4 @@
 enum Mode {
   CREATE,
-  EDIT
+  EDIT,
 }

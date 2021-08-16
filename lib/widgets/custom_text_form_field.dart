@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   final String hint;
   final int maxLength;
+  final String? Function(String?) validator;
+  final void Function(String?) onSaved;
+  final TextInputAction textInputAction;
+  final bool enabled;
   final bool showCounter;
   final bool multiline;
   final bool obscureText;
-  final TextInputAction textInputAction;
-  final String? Function(String?) validator;
-  final void Function(String?) onSaved;
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
-  final bool enabled;
   final Color backgroundColor;
   final TextEditingController? controller;
 
@@ -21,14 +21,14 @@ class CustomTextFormField extends StatelessWidget {
     required this.validator,
     required this.onSaved,
     required this.textInputAction,
+    this.enabled = true,
     this.showCounter = false,
     this.multiline = false,
     this.obscureText = false,
-    this.enabled = true,
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     this.backgroundColor = const Color.fromRGBO(66, 66, 66, 1),
-    this.controller
+    this.controller,
   });
 
   @override
@@ -45,7 +45,7 @@ class CustomTextFormField extends StatelessWidget {
           hintText: hint,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none
+            borderSide: BorderSide.none,
           ),
           contentPadding: const EdgeInsets.all(16),
           counterText: showCounter ? null : '',
@@ -62,7 +62,13 @@ class CustomTextFormField extends StatelessWidget {
         validator: validator,
         onSaved: onSaved,
         controller: controller,
-        buildCounter: (_, {required currentLength, maxLength, required isFocused}) => Padding(
+        buildCounter: (
+          _, {
+          required currentLength,
+          maxLength,
+          required isFocused,
+        }) =>
+            Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
@@ -70,10 +76,8 @@ class CustomTextFormField extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Text(
                 currentLength.toString() + "/" + maxLength.toString(),
-                style: TextStyle(
-                  color: Colors.grey.shade700
-                ),
-              )
+                style: TextStyle(color: Colors.grey.shade700),
+              ),
             ),
           ),
         ),

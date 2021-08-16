@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/providers/user.dart';
-import 'package:notebook/screens/auth_screen.dart';
-import 'package:notebook/screens/dashboard_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/user.dart';
+import 'auth_screen.dart';
+import 'dashboard_screen.dart';
 
 class AuthOrHome extends StatelessWidget {
   @override
@@ -20,7 +21,6 @@ class AuthOrHome extends StatelessWidget {
           return user.isAuth ? DashboardScreen() : AuthScreen();
         }
       },
-      
     );
   }
 }

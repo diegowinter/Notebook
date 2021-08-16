@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/providers/collections.dart';
-import 'package:notebook/utils/mode.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/collections.dart';
+import '../utils/mode.dart';
 import 'custom_text_form_field.dart';
 
 class AddCollectionModal extends StatefulWidget {
@@ -11,21 +11,22 @@ class AddCollectionModal extends StatefulWidget {
 
   AddCollectionModal({
     this.collectionId = '',
-    required this.mode
+    required this.mode,
   });
 
   @override
   _AddCollectionModalState createState() => _AddCollectionModalState();
 }
 
-class _AddCollectionModalState extends State<AddCollectionModal> with SingleTickerProviderStateMixin {
+class _AddCollectionModalState extends State<AddCollectionModal>
+    with SingleTickerProviderStateMixin {
   bool _isLoading = false;
 
   GlobalKey<FormState> _form = GlobalKey();
 
   Map<String, String> _formData = {
     'name': '',
-    'description': ''
+    'description': '',
   };
 
   Future<void> _editCollection() async {
@@ -39,12 +40,11 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
 
     _form.currentState!.save();
 
-    await Provider.of<Collections>(context, listen: false)
-        .updateCollection(
-          widget.collectionId,
-          _formData['name'] ?? '',
-          _formData['description'] ?? '',
-        );
+    await Provider.of<Collections>(context, listen: false).updateCollection(
+      widget.collectionId,
+      _formData['name'] ?? '',
+      _formData['description'] ?? '',
+    );
 
     Navigator.of(context).pop();
 
@@ -61,9 +61,11 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
     });
 
     _form.currentState!.save();
-    await Provider.of<Collections>(context, listen: false)
-        .addCollection(_formData['name'] ?? '', _formData['description'] ?? '');
-    
+    await Provider.of<Collections>(context, listen: false).addCollection(
+      _formData['name'] ?? '',
+      _formData['description'] ?? '',
+    );
+
     Navigator.of(context).pop();
 
     return Future.value();
@@ -76,8 +78,11 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
   void initState() {
     super.initState();
     if (widget.mode == Mode.EDIT) {
-      _nameController.text = Provider.of<Collections>(context, listen: false).getCollectionTitle(widget.collectionId);
-      _descriptionController.text = Provider.of<Collections>(context, listen: false).getCollectionDescription(widget.collectionId);
+      _nameController.text = Provider.of<Collections>(context, listen: false)
+          .getCollectionTitle(widget.collectionId);
+      _descriptionController.text =
+          Provider.of<Collections>(context, listen: false)
+              .getCollectionDescription(widget.collectionId);
     }
   }
 
@@ -94,97 +99,99 @@ class _AddCollectionModalState extends State<AddCollectionModal> with SingleTick
         child: Container(
           padding: EdgeInsets.all(16),
           child: _isLoading
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 10),
-                  Text(
-                    widget.mode == Mode.CREATE
-                      ? 'Adicionando...'
-                      : 'Salvando alterações...'
-                  )
-                ],
-              )
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Como a coleção vai se chamar?',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 10),
+                    Text(
+                      widget.mode == Mode.CREATE
+                          ? 'Adicionando...'
+                          : 'Salvando alterações...',
+                    )
+                  ],
+                )
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Como a coleção vai se chamar?',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  Form(
-                    key: _form,
-                    child: Column(
+                    SizedBox(height: 16),
+                    Form(
+                      key: _form,
+                      child: Column(
+                        children: [
+                          CustomTextFormField(
+                            controller: _nameController,
+                            hint: 'Nome da coleção',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'O nome não pode ser vazio.';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) => _formData['name'] = value!,
+                            textInputAction: TextInputAction.next,
+                            textCapitalization: TextCapitalization.sentences,
+                            maxLength: 50,
+                          ),
+                          SizedBox(height: 10),
+                          CustomTextFormField(
+                            controller: _descriptionController,
+                            hint: 'Descrição da coleção',
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'A descrição não pode ser vazia.';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) =>
+                                _formData['description'] = value!,
+                            textInputAction: TextInputAction.done,
+                            textCapitalization: TextCapitalization.sentences,
+                            maxLength: 100,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CustomTextFormField(
-                          controller: _nameController,
-                          hint: 'Nome da coleção',
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return 'O nome não pode ser vazio.';
-                            }
-                            return null;
+                        TextButton(
+                          child: Text('Cancelar'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
                           },
-                          onSaved: (value) => _formData['name'] = value!,
-                          textInputAction: TextInputAction.next,
-                          textCapitalization: TextCapitalization.sentences,
-                          maxLength: 50,
+                          style: TextButton.styleFrom(
+                            shape: StadiumBorder(),
+                          ),
                         ),
-                        SizedBox(height: 10),
-                        CustomTextFormField(
-                          controller: _descriptionController,
-                          hint: 'Descrição da coleção',
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return 'A descrição não pode ser vazia.';
-                            }
-                            return null;
+                        SizedBox(width: 10),
+                        ElevatedButton(
+                          child: Text(
+                            widget.mode == Mode.CREATE
+                                ? 'Adicionar'
+                                : 'Atualizar',
+                          ),
+                          onPressed: () async {
+                            widget.mode == Mode.CREATE
+                                ? await _addCollection()
+                                : await _editCollection();
                           },
-                          onSaved: (value) => _formData['description'] = value!,
-                          textInputAction: TextInputAction.done,
-                          textCapitalization: TextCapitalization.sentences,
-                          maxLength: 100,
+                          style: ElevatedButton.styleFrom(
+                            shape: StadiumBorder(),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        child: Text('Cancelar'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        style: TextButton.styleFrom(
-                          shape: StadiumBorder(),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        child: Text(widget.mode == Mode.CREATE
-                          ? 'Adicionar'
-                          : 'Atualizar'
-                        ),
-                        onPressed: () async {
-                          widget.mode == Mode.CREATE
-                            ? await _addCollection()
-                            : await _editCollection();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: StadiumBorder()
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-            ),
+                  ],
+                ),
         ),
       ),
     );

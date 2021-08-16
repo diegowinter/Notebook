@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:notebook/utils/constants.dart';
-import 'package:notebook/utils/storage.dart';
 
-class User with ChangeNotifier{
+import '../utils/constants.dart';
+import '../utils/storage.dart';
+
+class User with ChangeNotifier {
   String _id = '';
   String _email = '';
   String _token = '';
@@ -14,22 +15,26 @@ class User with ChangeNotifier{
   String _refreshToken = '';
   Timer? _updateTokenTimer;
 
-  Future<void> _authenticate(String? email, String? password, String urlSegment) async {
+  Future<void> _authenticate(
+    String? email,
+    String? password,
+    String urlSegment,
+  ) async {
     final response = await http.post(
       Uri.parse(
-        '${Constants.FIREBASE_AUTH_URL}:$urlSegment?key=${Constants.FIREBASE_API_KEY}'
+        '${Constants.FIREBASE_AUTH_URL}:$urlSegment?key=${Constants.FIREBASE_API_KEY}',
       ),
       body: json.encode({
         'email': email,
         'password': password,
-        'returnSecureToken': true
-      })
+        'returnSecureToken': true,
+      }),
     );
 
     final responseBody = json.decode(response.body);
 
     if (response.statusCode != 200) {
-      switch(responseBody['error']['message']) {
+      switch (responseBody['error']['message']) {
         case 'INVALID_PASSWORD':
           throw 'Senha incorreta.';
         case 'EMAIL_NOT_FOUND':
@@ -44,9 +49,13 @@ class User with ChangeNotifier{
       _email = responseBody['email'];
       _token = responseBody['idToken'];
       _refreshToken = responseBody['refreshToken'];
-      _expiryDate = DateTime.now().add(Duration(
-        seconds: int.parse(responseBody['expiresIn'])
-      ));
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            responseBody['expiresIn'],
+          ),
+        ),
+      );
 
       Storage.saveMap('userData', {
         'id': _id,
@@ -95,7 +104,7 @@ class User with ChangeNotifier{
     } else {
       _token = userData['token'];
     }
-    
+
     notifyListeners();
 
     return Future.value();
@@ -103,22 +112,28 @@ class User with ChangeNotifier{
 
   Future<void> updateToken() async {
     final response = await http.post(
-      Uri.parse('${Constants.FIREBASE_REFRESH_TOKEN_URL}?key=${Constants.FIREBASE_API_KEY}'),
+      Uri.parse(
+        '${Constants.FIREBASE_REFRESH_TOKEN_URL}?key=${Constants.FIREBASE_API_KEY}',
+      ),
       body: json.encode({
         'grant_type': 'refresh_token',
-        'refresh_token': _refreshToken
-      })
+        'refresh_token': _refreshToken,
+      }),
     );
-    
+
     final responseBody = json.decode(response.body);
 
     if (response.statusCode != 200) {
       print('Ocorreu um erro');
     } else {
       _token = responseBody['access_token'];
-      _expiryDate = DateTime.now().add(Duration(
-        seconds: int.parse(responseBody['expires_in'])
-      ));
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            responseBody['expires_in'],
+          ),
+        ),
+      );
 
       Storage.saveMap('userData', {
         'id': _id,
@@ -138,7 +153,10 @@ class User with ChangeNotifier{
       _updateTokenTimer!.cancel();
     }
     final timeToUpdateToken = _expiryDate!.difference(DateTime.now()).inSeconds;
-    _updateTokenTimer = Timer(Duration(seconds: timeToUpdateToken), updateToken);
+    _updateTokenTimer = Timer(
+      Duration(seconds: timeToUpdateToken),
+      updateToken,
+    );
   }
 
   void logout() {

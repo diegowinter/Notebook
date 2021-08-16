@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notebook/utils/storage.dart';
+
+import '../utils/storage.dart';
 
 class Preferences with ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.dark;
 
   Preferences({required String theme}) {
-    switch(theme) {
+    switch (theme) {
       case 'ThemeMode.light':
         _themeMode = ThemeMode.light;
         break;

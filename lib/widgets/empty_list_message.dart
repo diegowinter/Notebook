@@ -10,7 +10,7 @@ class EmptyListMessage extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subtitle,
-    required this.onReloadPressed
+    required this.onReloadPressed,
   });
 
   @override
@@ -23,9 +23,7 @@ class EmptyListMessage extends StatelessWidget {
           SizedBox(height: 5),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 20
-            ),
+            style: TextStyle(fontSize: 20),
           ),
           Text(subtitle),
           TextButton(

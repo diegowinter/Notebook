@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/providers/collections.dart';
-import 'package:notebook/providers/preferences.dart';
-import 'package:notebook/providers/user.dart';
-import 'package:notebook/utils/app_routes.dart';
-import 'package:notebook/utils/dialogs.dart';
-import 'package:notebook/utils/mode.dart';
-import 'package:notebook/widgets/add_collection_modal.dart';
-import 'package:notebook/widgets/empty_list_message.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/collections.dart';
+import '../providers/user.dart';
+import '../utils/app_routes.dart';
+import '../utils/dialogs.dart';
+import '../utils/mode.dart';
+import '../widgets/add_collection_modal.dart';
+import '../widgets/empty_list_message.dart';
 
 enum ItemOptions {
   Edit,
-  Delete
+  Delete,
 }
 
 class DashboardScreen extends StatefulWidget {
@@ -26,11 +26,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
-          topRight: Radius.circular(10)
+          topRight: Radius.circular(10),
         ),
       ),
       isScrollControlled: true,
-      builder: (_) => AddCollectionModal(mode: Mode.CREATE,)
+      builder: (_) => AddCollectionModal(
+        mode: Mode.CREATE,
+      ),
     );
   }
 
@@ -40,22 +42,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
-          topRight: Radius.circular(10)
+          topRight: Radius.circular(10),
         ),
       ),
       isScrollControlled: true,
-      builder: (_) => AddCollectionModal(collectionId: collectionId, mode: Mode.EDIT)
+      builder: (_) => AddCollectionModal(
+        collectionId: collectionId,
+        mode: Mode.EDIT,
+      ),
     );
   }
 
-  Future<void> _deleteCollection(BuildContext context, String collectionId) async {
+  Future<void> _deleteCollection(
+      BuildContext context, String collectionId) async {
     bool confirmation = await Dialogs.confirmationDialog(
       context: context,
       title: 'Excluir coleção',
-      content: 'Tem certeza que deseja excluir esta coleção?'
+      content: 'Tem certeza que deseja excluir esta coleção?',
     );
     if (confirmation) {
-      Provider.of<Collections>(context, listen: false).deleteCollection(collectionId);
+      Provider.of<Collections>(context, listen: false)
+          .deleteCollection(collectionId);
     }
   }
 
@@ -63,7 +70,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Provider.of<Collections>(context, listen: false).loadCollections();
   }
 
-  late final Future _collections = Provider.of<Collections>(context, listen: false).loadCollections();
+  late final Future _collections =
+      Provider.of<Collections>(context, listen: false).loadCollections();
 
   @override
   Widget build(BuildContext context) {
@@ -139,29 +147,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: ListTile(
                         leading: Container(
                           height: double.infinity,
-                          child: Icon(Icons.book)
+                          child: Icon(Icons.book),
                         ),
                         title: Text(collections.collections[index].title),
-                        subtitle: Text(collections.collections[index].description),
+                        subtitle: Text(
+                          collections.collections[index].description,
+                        ),
                         trailing: PopupMenuButton(
                           icon: Icon(Icons.more_vert),
                           tooltip: 'Opções da coleção',
                           onSelected: (value) {
                             value == ItemOptions.Edit
-                              ? _editCollection(collections.collections[index].id)
-                              : _deleteCollection(context, collections.collections[index].id);
+                                ? _editCollection(
+                                    collections.collections[index].id)
+                                : _deleteCollection(
+                                    context, collections.collections[index].id);
                           },
                           itemBuilder: (_) => [
                             PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.edit),
-                                  SizedBox(width: 20),
-                                  Text('Editar coleção'),
-                                ],
-                              ),
-                              value: ItemOptions.Edit
-                            ),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.edit),
+                                    SizedBox(width: 20),
+                                    Text('Editar coleção'),
+                                  ],
+                                ),
+                                value: ItemOptions.Edit),
                             PopupMenuItem(
                               child: Row(
                                 children: [
@@ -184,8 +195,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 );
               },
             );
-          }
-        )
+          },
+        ),
       ),
     );
   }

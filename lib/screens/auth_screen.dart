@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/providers/user.dart';
-
-import 'package:notebook/utils/app_routes.dart';
-import 'package:notebook/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/app_routes.dart';
+import '../providers/user.dart';
+import '../widgets/custom_text_form_field.dart';
+
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({ Key? key }) : super(key: key);
+  const AuthScreen({Key? key}) : super(key: key);
 
   @override
   _AuthScreenState createState() => _AuthScreenState();
@@ -16,10 +16,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isSignUp = false;
   bool _isLoading = false;
   GlobalKey<FormState> _form = GlobalKey();
-  Map<String, String> _formData = {
-    'email': '',
-    'password': ''
-  };
+  Map<String, String> _formData = {'email': '', 'password': ''};
 
   void _showDialog(String message) {
     showDialog(
@@ -35,7 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
             },
           )
         ],
-      )
+      ),
     );
   }
 
@@ -78,9 +75,7 @@ class _AuthScreenState extends State<AuthScreen> {
           children: [
             Text(
               'Notebook',
-              style: TextStyle(
-                fontSize: 28
-              ),
+              style: TextStyle(fontSize: 28),
             ),
             SizedBox(height: 16),
             Form(
@@ -114,41 +109,36 @@ class _AuthScreenState extends State<AuthScreen> {
                     onSaved: (value) => _formData['password'] = value!,
                     textInputAction: TextInputAction.done,
                     maxLength: 100,
-                  )
-                ]
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 10),
             _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : ElevatedButton(
-                  child: Text(_isSignUp
-                      ? 'Cadastrar'
-                      : 'Entrar'
-                    ),
-                  onPressed: () => _onSave(),
-                  style: ElevatedButton.styleFrom(
-                    shape: StadiumBorder()
+                ? Center(child: CircularProgressIndicator())
+                : ElevatedButton(
+                    child: Text(_isSignUp ? 'Cadastrar' : 'Entrar'),
+                    onPressed: () => _onSave(),
+                    style: ElevatedButton.styleFrom(shape: StadiumBorder()),
                   ),
-                ),
             SizedBox(height: 10),
             _isSignUp
-              ? GestureDetector(
-                  child: Text('Já possui conta? Entrar.'),
-                  onTap: () {
-                    setState(() {
-                      _isSignUp = false;
-                    });
-                  },
-                )
-              : GestureDetector(
-                  child: Text('Não possui conta? Cadastre-se.'),
-                  onTap: () {
-                    setState(() {
-                      _isSignUp = true;
-                    });
-                  },
-                )
+                ? GestureDetector(
+                    child: Text('Já possui conta? Entrar.'),
+                    onTap: () {
+                      setState(() {
+                        _isSignUp = false;
+                      });
+                    },
+                  )
+                : GestureDetector(
+                    child: Text('Não possui conta? Cadastre-se.'),
+                    onTap: () {
+                      setState(() {
+                        _isSignUp = true;
+                      });
+                    },
+                  ),
           ],
         ),
       ),

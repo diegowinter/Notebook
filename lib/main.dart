@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/screens/auth_or_home.dart';
-import 'package:notebook/screens/settings_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './utils/app_routes.dart';
+import './screens/auth_or_home.dart';
+import './screens/settings_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/dashboard_screen.dart';
+import './screens/collection_screen.dart';
+import './screens/page_composer_screen.dart';
+import './screens/page_viewer_screen.dart';
 import './providers/collections.dart';
 import './providers/user.dart';
 import './providers/pages.dart';
 import './providers/preferences.dart';
-import './screens/collection_screen.dart';
-import './screens/page_composer_screen.dart';
-import './screens/page_viewer_screen.dart';
+import './utils/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,8 +30,8 @@ void main() async {
             user.token,
             user.id,
             previousCollections!.collections,
-            user.expiryDate
-          ) ,
+            user.expiryDate,
+          ),
         ),
         ChangeNotifierProxyProvider<User, Pages>(
           create: (_) => new Pages('', '', [], null),
@@ -39,12 +39,14 @@ void main() async {
             user.id,
             user.token,
             previousPages!.pages,
-            user.expiryDate
+            user.expiryDate,
           ),
         ),
         ChangeNotifierProvider(
-          create: (_) => new Preferences(theme: sharedPreferences.getString('theme') ?? 'ThemeMode.dark'),
-        )
+          create: (_) => new Preferences(
+            theme: sharedPreferences.getString('theme') ?? 'ThemeMode.dark',
+          ),
+        ),
       ],
       child: MyApp(),
     ),
@@ -66,12 +68,10 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.cyan,
             inputDecorationTheme: InputDecorationTheme(
               fillColor: Colors.grey[300],
-              filled: true
+              filled: true,
             ),
-            iconTheme: IconThemeData(
-              color: Colors.black
-            ),
-            materialTapTargetSize: MaterialTapTargetSize.padded
+            iconTheme: IconThemeData(color: Colors.black),
+            materialTapTargetSize: MaterialTapTargetSize.padded,
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
@@ -80,9 +80,9 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.black87,
             inputDecorationTheme: InputDecorationTheme(
               fillColor: Colors.grey[800],
-              filled: true
+              filled: true,
             ),
-            materialTapTargetSize: MaterialTapTargetSize.padded
+            materialTapTargetSize: MaterialTapTargetSize.padded,
           ),
           themeMode: preferences.themeMode,
           debugShowCheckedModeBanner: false,
@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
                 return MaterialPageRoute(
                   builder: (context) {
                     return CollectionScreen(collectionId: argument);
-                  }
+                  },
                 );
               case AppRoutes.PAGE_COMPOSER:
                 final argument = settings.arguments as Map<String, dynamic>;
@@ -113,14 +113,14 @@ class MyApp extends StatelessWidget {
                       collectionPage: argument['collectionPage'],
                       mode: argument['mode'],
                     );
-                  }
+                  },
                 );
               case AppRoutes.PAGE_VIEWER:
                 final argument = settings.arguments as CollectionPage;
                 return MaterialPageRoute(
                   builder: (context) {
                     return PageViewerScreen(argument);
-                  }
+                  },
                 );
             }
           },
@@ -129,4 +129,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

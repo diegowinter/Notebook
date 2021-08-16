@@ -19,7 +19,7 @@ class Storage {
 
   static Future<String?> getString(String key) async {
     final sharedPreferences = await SharedPreferences.getInstance();
-    
+
     return sharedPreferences.getString(key);
   }
 

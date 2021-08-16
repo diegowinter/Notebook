@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/providers/preferences.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/preferences.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -26,10 +27,7 @@ class SettingsScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10, bottom: 5),
               child: Text(
                 'Tema',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             RadioListTile(
@@ -37,7 +35,7 @@ class SettingsScreen extends StatelessWidget {
               title: Text('Tema claro'),
               value: ThemeMode.light,
               groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode
+              onChanged: preferences.setThemeMode,
             ),
             RadioListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -51,7 +49,7 @@ class SettingsScreen extends StatelessWidget {
               title: Text('Tema atual do sistema'),
               value: ThemeMode.system,
               groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode
+              onChanged: preferences.setThemeMode,
             ),
           ],
         ),
