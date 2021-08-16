@@ -14,7 +14,11 @@ class AuthOrHome extends StatelessWidget {
       future: user.tryAutoLogin(),
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         } else if (snapshot.error != null) {
           return Center(child: Text('Ocorreu um erro.'));
         } else {
