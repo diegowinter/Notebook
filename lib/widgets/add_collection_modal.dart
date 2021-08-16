@@ -114,6 +114,15 @@ class _AddCollectionModalState extends State<AddCollectionModal>
               : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Container(
+                      width: 40,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
+                      ),
+                    ),
+                    SizedBox(height: 16),
                     Text(
                       'Como a coleção vai se chamar?',
                       style: TextStyle(
@@ -159,6 +168,7 @@ class _AddCollectionModalState extends State<AddCollectionModal>
                         ],
                       ),
                     ),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
