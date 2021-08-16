@@ -77,7 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title: 'Coleções',
+      title: 'Cadernos',
       actions: [
         // ConstrainedBox(
         //   constraints: BoxConstraints(maxHeight: 32, maxWidth: 32),
