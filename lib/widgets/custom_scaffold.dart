@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
+  final Widget? leading;
   final String title;
   final List<Widget> actions;
   final Widget body;
 
   CustomScaffold({
+    this.leading,
     required this.title,
     this.actions = const [],
     required this.body,
@@ -25,12 +27,23 @@ class CustomScaffold extends StatelessWidget {
             ),
             child: Row(
               children: [
+                if (leading != null)
+                  Row(
+                    children: [
+                      leading ?? SizedBox(),
+                      SizedBox(width: 16),
+                    ],
+                  ),
                 Text(
                   title,
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 Spacer(),
-                if (actions.isNotEmpty) Row(children: actions),
+                if (actions.isNotEmpty)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: actions,
+                  ),
               ],
             ),
           ),
