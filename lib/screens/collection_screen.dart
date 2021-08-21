@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notebook/widgets/custom_scaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/collections.dart';
@@ -82,36 +81,43 @@ class CollectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final collections = Provider.of<Collections>(context);
 
-    return CustomScaffold(
-      leading: IconButton(
-        padding: EdgeInsets.zero,
-        constraints: BoxConstraints(),
-        icon: Icon(Icons.arrow_back),
-        onPressed: () => Navigator.of(context).pop(),
-        tooltip: 'Voltar',
-      ),
-      title: collections.getCollectionTitle(collectionId),
-      actions: [
-        IconButton(
-          icon: Icon(Icons.add),
-          tooltip: 'Nova página',
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
           padding: EdgeInsets.zero,
           constraints: BoxConstraints(),
-          onPressed: () {
-            Navigator.of(context).pushNamed(
-              AppRoutes.PAGE_COMPOSER,
-              arguments: {
-                'collectionId': collectionId,
-                'mode': Mode.CREATE,
-              },
-            );
-          },
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+          tooltip: 'Voltar',
         ),
-        SizedBox(width: 16),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 30.0, maxWidth: 16.0),
-          child: PopupMenuButton(
-            padding: EdgeInsets.zero,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              collections.getCollectionTitle(collectionId),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              collections.getCollectionDescription(collectionId),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+            )
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            tooltip: 'Nova página',
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                AppRoutes.PAGE_COMPOSER,
+                arguments: {
+                  'collectionId': collectionId,
+                  'mode': Mode.CREATE,
+                },
+              );
+            },
+          ),
+          PopupMenuButton(
             icon: Icon(Icons.more_vert),
             tooltip: 'Opções da coleção',
             onSelected: (value) {
@@ -142,8 +148,8 @@ class CollectionScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
       body: Center(
         child: FutureBuilder(
           future: Provider.of<Pages>(context, listen: false)

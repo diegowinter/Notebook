@@ -6,7 +6,6 @@ import '../providers/user.dart';
 import '../utils/app_routes.dart';
 import '../utils/dialogs.dart';
 import '../utils/mode.dart';
-import '../widgets/custom_scaffold.dart';
 import '../widgets/add_collection_modal.dart';
 import '../widgets/empty_list_message.dart';
 
@@ -78,36 +77,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    return CustomScaffold(
-      title: 'Cadernos',
-      actions: [
-        // ConstrainedBox(
-        //   constraints: BoxConstraints(maxHeight: 32, maxWidth: 32),
-        //   child: CircleAvatar(
-        //     child: Text('DW'),
-        //   ),
-        // ),
-        SizedBox(width: 16),
-        IconButton(
-          icon: Icon(Icons.add),
-          tooltip: 'Nova coleção',
-          onPressed: () => _newCollectionModal(),
-          padding: EdgeInsets.zero,
-          constraints: BoxConstraints(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Cadernos',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
-        SizedBox(width: 16),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 28, maxWidth: 28),
-          child: GestureDetector(
-            child: CircleAvatar(
+        titleSpacing: 16,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            tooltip: 'Nova coleção',
+            onPressed: () => _newCollectionModal(),
+          ),
+          IconButton(
+            icon: CircleAvatar(
               child: Text(user.email.substring(0, 1)),
             ),
-            onTap: () {
-              Navigator.of(context).pushNamed(AppRoutes.SETTINGS);
-            },
+            tooltip: 'Nova coleção',
+            onPressed: () =>
+                Navigator.of(context).pushNamed(AppRoutes.SETTINGS),
           ),
-        ),
-      ],
+        ],
+      ),
       body: Center(
         child: FutureBuilder(
           future: _collections,

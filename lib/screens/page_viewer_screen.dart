@@ -8,7 +8,6 @@ import '../providers/pages.dart';
 import '../utils/Dialogs.dart';
 import '../utils/app_routes.dart';
 import '../utils/mode.dart';
-import '../widgets/custom_scaffold.dart';
 
 enum ItemOptions {
   Edit,
@@ -68,24 +67,50 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      leading: IconButton(
-        padding: EdgeInsets.zero,
-        constraints: BoxConstraints(),
-        icon: Icon(Icons.arrow_back),
-        onPressed: () => Navigator.of(context).pop(),
-        tooltip: 'Voltar',
-      ),
-      title: displayingPage.title.isEmpty
-          ? 'Página sem título'
-          : displayingPage.title,
-      actions: displayingPage.pageId.isEmpty
-          ? []
-          : [
-              ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 30.0, maxWidth: 16.0),
-                child: PopupMenuButton(
-                  padding: EdgeInsets.zero,
+    return Scaffold(
+      appBar: AppBar(
+        title: displayingPage.pageId.isEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    displayingPage.title.isEmpty
+                        ? 'Página sem título'
+                        : displayingPage.title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 3,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
+                        borderRadius: BorderRadius.circular(2)),
+                    child: Text(
+                      'Pré-visualização',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            : Text(
+                displayingPage.title,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        actions: displayingPage.pageId.isEmpty
+            ? []
+            : [
+                PopupMenuButton(
                   icon: Icon(Icons.more_vert),
                   tooltip: 'Opções da página',
                   onSelected: (value) {
@@ -123,8 +148,8 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+      ),
       body: Markdown(
         data: displayingPage.content,
         selectable: true,
