@@ -25,27 +25,34 @@ class SettingsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 5),
-              child: Text(
-                'Conta',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              padding: const EdgeInsets.only(left: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.name,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text('E-mail: ' + user.email),
+                    ],
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.logout),
+                    onPressed: () {
+                      user.logout();
+                      Navigator.of(context)
+                          .pushReplacementNamed(AppRoutes.AUTH);
+                    },
+                  )
+                ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, bottom: 5),
-                  child: Text('E-mail: ' + user.email),
-                ),
-                IconButton(
-                  icon: Icon(Icons.logout),
-                  onPressed: () {
-                    user.logout();
-                    Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH);
-                  },
-                )
-              ],
             ),
             SizedBox(height: 20),
             Padding(
