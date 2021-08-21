@@ -8,6 +8,7 @@ import '../utils/constants.dart';
 import '../utils/storage.dart';
 
 class User with ChangeNotifier {
+  String _name = '';
   String _id = '';
   String _email = '';
   String _token = '';
@@ -16,6 +17,7 @@ class User with ChangeNotifier {
   Timer? _updateTokenTimer;
 
   Future<void> _authenticate(
+    String? name,
     String? email,
     String? password,
     String urlSegment,
@@ -57,7 +59,27 @@ class User with ChangeNotifier {
         ),
       );
 
+      String userName = '';
+
+      if (name != null && urlSegment == 'signUp') {
+        await http.put(
+          Uri.parse(
+            '${Constants.FIREBASE_URL}/users/$_id.json?auth=$_token',
+          ),
+          body: json.encode({'name': name}),
+        );
+        userName = name;
+      } else {
+        final response = await http.get(Uri.parse(
+          '${Constants.FIREBASE_URL}/users/$_id.json?auth=$_token',
+        ));
+        userName = json.decode(response.body)['name'];
+      }
+
+      _name = userName;
+
       Storage.saveMap('userData', {
+        'name': userName,
         'id': _id,
         'email': _email,
         'token': _token,
@@ -71,11 +93,11 @@ class User with ChangeNotifier {
   }
 
   Future<void> login(String? email, String? password) async {
-    return _authenticate(email, password, 'signInWithPassword');
+    return _authenticate(null, email, password, 'signInWithPassword');
   }
 
-  Future<void> register(String? email, String? password) async {
-    return _authenticate(email, password, 'signUp');
+  Future<void> register(String? name, String? email, String? password) async {
+    return _authenticate(name, email, password, 'signUp');
   }
 
   bool get isAuth {
@@ -179,6 +201,10 @@ class User with ChangeNotifier {
 
   String get id {
     return _id;
+  }
+
+  String get name {
+    return _name;
   }
 
   String get email {

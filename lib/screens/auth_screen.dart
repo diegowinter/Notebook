@@ -16,7 +16,11 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isSignUp = false;
   bool _isLoading = false;
   GlobalKey<FormState> _form = GlobalKey();
-  Map<String, String> _formData = {'email': '', 'password': ''};
+  Map<String, String> _formData = {
+    'name': '',
+    'email': '',
+    'password': '',
+  };
 
   void _showDialog(String message) {
     showDialog(
@@ -49,11 +53,16 @@ class _AuthScreenState extends State<AuthScreen> {
 
     try {
       if (_isSignUp) {
-        await Provider.of<User>(context, listen: false)
-            .register(_formData['email'], _formData['password']);
+        await Provider.of<User>(context, listen: false).register(
+          _formData['name'],
+          _formData['email'],
+          _formData['password'],
+        );
       } else {
-        await Provider.of<User>(context, listen: false)
-            .login(_formData['email'], _formData['password']);
+        await Provider.of<User>(context, listen: false).login(
+          _formData['email'],
+          _formData['password'],
+        );
       }
       Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
     } catch (error) {
@@ -82,6 +91,22 @@ class _AuthScreenState extends State<AuthScreen> {
               key: _form,
               child: Column(
                 children: [
+                  if (_isSignUp)
+                    CustomTextFormField(
+                      hint: 'Nome',
+                      keyboardType: TextInputType.name,
+                      enabled: !_isLoading,
+                      validator: (value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Insira um nome válido!';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _formData['name'] = value!,
+                      textInputAction: TextInputAction.next,
+                      maxLength: 100,
+                    ),
+                  if (_isSignUp) SizedBox(height: 10),
                   CustomTextFormField(
                     hint: 'E-mail',
                     keyboardType: TextInputType.emailAddress,
@@ -124,7 +149,7 @@ class _AuthScreenState extends State<AuthScreen> {
             SizedBox(height: 10),
             _isSignUp
                 ? GestureDetector(
-                    child: Text('Já possui conta? Entrar.'),
+                    child: Text('Já possui conta? Faça o login.'),
                     onTap: () {
                       setState(() {
                         _isSignUp = false;
