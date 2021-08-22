@@ -39,12 +39,19 @@ dev_dependencies:
     sdk: flutter
   
   flutter_launcher_icons: ^0.9.1
+  flutter_native_splash: ^1.2.1
 
 flutter_icons:
-  image_path: "icon/notebook_icon.png"
   android: true
-  windows: true
+  image_path: "icon/notebook_icon.png"
+  adaptive_icon_background: "#00BCD4"
+  adaptive_icon_foreground: "icon/notebook_icon_adaptive.png"
   
+flutter_native_splash:
+  image: "icon/notebook_icon_splash.png"
+  color: "#00BCD4"
+  image_dark: "icon/notebook_icon_splash.png"
+  color_dark: "#2E2E2E"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
