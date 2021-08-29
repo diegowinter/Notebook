@@ -83,14 +83,14 @@ class MyApp extends StatelessWidget {
             brightness: Brightness.dark,
             primarySwatch: Colors.cyan,
             accentColor: Colors.cyan,
-            backgroundColor: Color.fromRGBO(46, 46, 46, 1),
+            backgroundColor: Color.fromRGBO(48, 48, 48, 1),
             inputDecorationTheme: InputDecorationTheme(
               fillColor: Colors.grey[800],
               filled: true,
             ),
             materialTapTargetSize: MaterialTapTargetSize.padded,
             appBarTheme: AppBarTheme(
-              backgroundColor: Color.fromRGBO(46, 46, 46, 1),
+              backgroundColor: Color.fromRGBO(48, 48, 48, 1),
               titleSpacing: 0,
               elevation: 0,
             ),
