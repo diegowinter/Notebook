@@ -116,6 +116,7 @@ class User with ChangeNotifier {
 
     final expiryDate = DateTime.parse(userData['expiryDate']);
 
+    _name = userData['name'];
     _id = userData['id'];
     _email = userData['email'];
     _refreshToken = userData['refreshToken'];
