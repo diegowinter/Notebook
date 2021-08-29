@@ -64,7 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
           _formData['password'],
         );
       }
-      Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
+      // Navigator.of(context).pushReplacementNamed(AppRoutes.DASHBOARD);
     } catch (error) {
       _showDialog(error.toString());
     }
