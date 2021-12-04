@@ -178,6 +178,40 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                 ),
               ),
             ),
+            h1: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+            h1Padding: EdgeInsets.only(top: 16),
+            h2: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            h2Padding: EdgeInsets.only(top: 16),
+            h3: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            h3Padding: EdgeInsets.only(top: 16),
+            h4: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            h4Padding: EdgeInsets.only(top: 16),
+            h5: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            h5Padding: EdgeInsets.only(top: 16),
+            h6: TextStyle(
+              fontSize: 16,
+            ),
+            h6Padding: EdgeInsets.only(top: 16),
+            a: TextStyle(fontSize: 16),
+            img: TextStyle(fontSize: 16),
+            em: TextStyle(fontSize: 16),
+            del: TextStyle(fontSize: 16),
+            p: TextStyle(fontSize: 16),
             code: TextStyle(
               backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
             ),
