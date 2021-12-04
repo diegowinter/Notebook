@@ -76,9 +76,14 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var queryData = MediaQuery.of(context);
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(
+            horizontal: queryData.size.width > 550
+                ? ((queryData.size.width - 550) / 2) + 16
+                : 16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
