@@ -84,6 +84,8 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var queryData = MediaQuery.of(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -127,11 +129,11 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
               ],
             ))
           : Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                bottom: 16,
-                top: 5,
+              padding: EdgeInsets.symmetric(
+                horizontal: queryData.size.width > 1100
+                    ? ((queryData.size.width - 1100) / 2) + 16
+                    : 16,
+                vertical: 16,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,

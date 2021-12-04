@@ -76,6 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    var queryData = MediaQuery.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -125,50 +126,57 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: collections.itemsCount,
-                    itemBuilder: (ctx, index) => ListTile(
-                      leading: Container(
-                        height: double.infinity,
-                        child: Icon(Icons.book),
+                    itemBuilder: (ctx, index) => Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: queryData.size.width > 1000
+                            ? ((queryData.size.width - 1000) / 2) + 16
+                            : 16,
                       ),
-                      title: Text(collections.collections[index].title),
-                      subtitle: Text(
-                        collections.collections[index].description,
-                      ),
-                      trailing: PopupMenuButton(
-                        icon: Icon(Icons.more_vert),
-                        tooltip: 'Opções da coleção',
-                        onSelected: (value) {
-                          value == ItemOptions.Edit
-                              ? _editCollection(
-                                  collections.collections[index].id)
-                              : _deleteCollection(
-                                  context, collections.collections[index].id);
-                        },
-                        itemBuilder: (_) => [
-                          PopupMenuItem(
+                      child: ListTile(
+                        leading: Container(
+                          height: double.infinity,
+                          child: Icon(Icons.book),
+                        ),
+                        title: Text(collections.collections[index].title),
+                        subtitle: Text(
+                          collections.collections[index].description,
+                        ),
+                        trailing: PopupMenuButton(
+                          icon: Icon(Icons.more_vert),
+                          tooltip: 'Opções da coleção',
+                          onSelected: (value) {
+                            value == ItemOptions.Edit
+                                ? _editCollection(
+                                    collections.collections[index].id)
+                                : _deleteCollection(
+                                    context, collections.collections[index].id);
+                          },
+                          itemBuilder: (_) => [
+                            PopupMenuItem(
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.edit),
+                                    SizedBox(width: 20),
+                                    Text('Editar coleção'),
+                                  ],
+                                ),
+                                value: ItemOptions.Edit),
+                            PopupMenuItem(
                               child: Row(
                                 children: [
-                                  Icon(Icons.edit),
+                                  Icon(Icons.delete),
                                   SizedBox(width: 20),
-                                  Text('Editar coleção'),
+                                  Text('Excluir coleção'),
                                 ],
                               ),
-                              value: ItemOptions.Edit),
-                          PopupMenuItem(
-                            child: Row(
-                              children: [
-                                Icon(Icons.delete),
-                                SizedBox(width: 20),
-                                Text('Excluir coleção'),
-                              ],
-                            ),
-                            value: ItemOptions.Delete,
-                          )
-                        ],
-                      ),
-                      onTap: () => Navigator.of(context).pushNamed(
-                        AppRoutes.COLLECTION,
-                        arguments: collections.collections[index].id,
+                              value: ItemOptions.Delete,
+                            )
+                          ],
+                        ),
+                        onTap: () => Navigator.of(context).pushNamed(
+                          AppRoutes.COLLECTION,
+                          arguments: collections.collections[index].id,
+                        ),
                       ),
                     ),
                   ),

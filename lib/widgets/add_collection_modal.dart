@@ -18,8 +18,7 @@ class AddCollectionModal extends StatefulWidget {
   _AddCollectionModalState createState() => _AddCollectionModalState();
 }
 
-class _AddCollectionModalState extends State<AddCollectionModal>
-    with SingleTickerProviderStateMixin {
+class _AddCollectionModalState extends State<AddCollectionModal> {
   bool _isLoading = false;
 
   GlobalKey<FormState> _form = GlobalKey();
@@ -88,16 +87,21 @@ class _AddCollectionModalState extends State<AddCollectionModal>
 
   @override
   Widget build(BuildContext context) {
+    var queryData = MediaQuery.of(context);
+
     return AnimatedPadding(
       padding: MediaQuery.of(context).viewInsets,
       duration: const Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: AnimatedSize(
-        vsync: this,
         duration: Duration(milliseconds: 300),
         curve: Curves.decelerate,
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(
+              horizontal: queryData.size.width > 1000
+                  ? ((queryData.size.width - 1000) / 2) + 16
+                  : 16,
+              vertical: 16),
           child: _isLoading
               ? Column(
                   mainAxisSize: MainAxisSize.min,

@@ -10,6 +10,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final preferences = Provider.of<Preferences>(context, listen: false);
     final user = Provider.of<User>(context, listen: false);
+    var queryData = MediaQuery.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -17,9 +18,15 @@ class SettingsScreen extends StatelessWidget {
           'Configurações',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
+        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(
+          horizontal: queryData.size.width > 1000
+              ? ((queryData.size.width - 1000) / 2) + 16
+              : 16,
+          vertical: 16,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,

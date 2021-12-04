@@ -80,6 +80,7 @@ class CollectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final collections = Provider.of<Collections>(context);
+    var queryData = MediaQuery.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -174,49 +175,57 @@ class CollectionScreen extends StatelessWidget {
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: pages.pagesCount,
-                    itemBuilder: (ctx, index) => ListTile(
-                      leading: Container(
-                        height: double.infinity,
-                        child: Icon(Icons.article),
+                    itemBuilder: (ctx, index) => Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: queryData.size.width > 1000
+                            ? ((queryData.size.width - 1000) / 2) + 16
+                            : 16,
                       ),
-                      title: Text(pages.pages[index].title),
-                      trailing: PopupMenuButton(
-                        icon: Icon(Icons.more_vert),
-                        tooltip: 'Opções da página',
-                        onSelected: (value) {
-                          value == ItemOptions.Edit
-                              ? _editPage(context, pages.pages[index])
-                              : _deletePage(context, pages.pages[index].pageId);
+                      child: ListTile(
+                        leading: Container(
+                          height: double.infinity,
+                          child: Icon(Icons.article),
+                        ),
+                        title: Text(pages.pages[index].title),
+                        trailing: PopupMenuButton(
+                          icon: Icon(Icons.more_vert),
+                          tooltip: 'Opções da página',
+                          onSelected: (value) {
+                            value == ItemOptions.Edit
+                                ? _editPage(context, pages.pages[index])
+                                : _deletePage(
+                                    context, pages.pages[index].pageId);
+                          },
+                          itemBuilder: (_) => [
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.edit),
+                                  SizedBox(width: 20),
+                                  Text('Editar página'),
+                                ],
+                              ),
+                              value: ItemOptions.Edit,
+                            ),
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.delete),
+                                  SizedBox(width: 20),
+                                  Text('Excluir página'),
+                                ],
+                              ),
+                              value: ItemOptions.Delete,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            AppRoutes.PAGE_VIEWER,
+                            arguments: pages.pages[index],
+                          );
                         },
-                        itemBuilder: (_) => [
-                          PopupMenuItem(
-                            child: Row(
-                              children: [
-                                Icon(Icons.edit),
-                                SizedBox(width: 20),
-                                Text('Editar página'),
-                              ],
-                            ),
-                            value: ItemOptions.Edit,
-                          ),
-                          PopupMenuItem(
-                            child: Row(
-                              children: [
-                                Icon(Icons.delete),
-                                SizedBox(width: 20),
-                                Text('Excluir página'),
-                              ],
-                            ),
-                            value: ItemOptions.Delete,
-                          ),
-                        ],
                       ),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRoutes.PAGE_VIEWER,
-                          arguments: pages.pages[index],
-                        );
-                      },
                     ),
                   ),
                 );

@@ -67,11 +67,13 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var queryData = MediaQuery.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: displayingPage.pageId.isEmpty
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     displayingPage.title.isEmpty
@@ -151,30 +153,38 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                 ),
               ],
       ),
-      body: Markdown(
-        data: displayingPage.content,
-        selectable: true,
-        extensionSet: md.ExtensionSet(
-          md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-          [...md.ExtensionSet.gitHubFlavored.inlineSyntaxes],
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: queryData.size.width > 1000
+              ? ((queryData.size.width - 1000) / 2) + 16
+              : 16,
+          vertical: 16,
         ),
-        onTapLink: (text, href, title) => launch(href ?? ''),
-        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-          blockquotePadding: EdgeInsets.only(left: 14),
-          blockquoteDecoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(
-                color: Color.fromRGBO(66, 66, 66, 1),
-                width: 4,
+        child: Markdown(
+          data: displayingPage.content,
+          selectable: true,
+          extensionSet: md.ExtensionSet(
+            md.ExtensionSet.gitHubFlavored.blockSyntaxes,
+            [...md.ExtensionSet.gitHubFlavored.inlineSyntaxes],
+          ),
+          onTapLink: (text, href, title) => launch(href ?? ''),
+          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+            blockquotePadding: EdgeInsets.only(left: 14),
+            blockquoteDecoration: BoxDecoration(
+              border: Border(
+                left: BorderSide(
+                  color: Color.fromRGBO(66, 66, 66, 1),
+                  width: 4,
+                ),
               ),
             ),
-          ),
-          code: TextStyle(
-            backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
-          ),
-          codeblockDecoration: BoxDecoration(
-            color: Theme.of(context).inputDecorationTheme.fillColor,
-            borderRadius: BorderRadius.circular(3),
+            code: TextStyle(
+              backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
+            ),
+            codeblockDecoration: BoxDecoration(
+              color: Theme.of(context).inputDecorationTheme.fillColor,
+              borderRadius: BorderRadius.circular(3),
+            ),
           ),
         ),
       ),
