@@ -91,7 +91,7 @@ class CollectionScreen extends StatelessWidget {
           tooltip: 'Voltar',
         ),
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               collections.getCollectionTitle(collectionId),
@@ -103,6 +103,7 @@ class CollectionScreen extends StatelessWidget {
             )
           ],
         ),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.add),

@@ -110,6 +110,7 @@ class _PageComposerScreenState extends State<PageComposerScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
       ),
       body: _isLoading
           ? Center(

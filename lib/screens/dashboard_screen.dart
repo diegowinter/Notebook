@@ -84,6 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         titleSpacing: 16,
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -94,7 +95,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             icon: CircleAvatar(
               child: Text(user.email.substring(0, 1)),
             ),
-            tooltip: 'Nova coleção',
+            tooltip: 'Meu perfil',
             onPressed: () =>
                 Navigator.of(context).pushNamed(AppRoutes.SETTINGS),
           ),

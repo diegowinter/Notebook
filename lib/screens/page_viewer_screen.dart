@@ -107,6 +107,7 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+        centerTitle: true,
         actions: displayingPage.pageId.isEmpty
             ? []
             : [
