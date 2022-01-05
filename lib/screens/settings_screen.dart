@@ -18,77 +18,94 @@ class SettingsScreen extends StatelessWidget {
           'Configurações',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: queryData.size.width > 1000
               ? ((queryData.size.width - 1000) / 2) + 16
               : 16,
-          vertical: 16,
+          vertical: 3,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        user.name,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user.name,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Text('E-mail: ' + user.email),
-                    ],
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.logout),
-                    onPressed: () {
-                      user.logout();
-                      Navigator.of(context)
-                          .pushReplacementNamed(AppRoutes.AUTH);
-                    },
-                  )
-                ],
+                        SizedBox(height: 5),
+                        Text(user.email),
+                      ],
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.logout),
+                      onPressed: () {
+                        user.logout();
+                        Navigator.of(context)
+                            .pushReplacementNamed(AppRoutes.AUTH);
+                      },
+                    )
+                  ],
+                ),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 5),
-              child: Text(
-                'Tema',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            SizedBox(height: 10),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tema',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    RadioListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                      title: Text('Tema claro'),
+                      value: ThemeMode.light,
+                      groupValue: preferences.themeMode,
+                      onChanged: preferences.setThemeMode,
+                    ),
+                    RadioListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                      title: Text('Tema escuro'),
+                      value: ThemeMode.dark,
+                      groupValue: preferences.themeMode,
+                      onChanged: preferences.setThemeMode,
+                    ),
+                    RadioListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                      title: Text('Tema atual do sistema'),
+                      value: ThemeMode.system,
+                      groupValue: preferences.themeMode,
+                      onChanged: preferences.setThemeMode,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            RadioListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 0),
-              title: Text('Tema claro'),
-              value: ThemeMode.light,
-              groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode,
-            ),
-            RadioListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 0),
-              title: Text('Tema escuro'),
-              value: ThemeMode.dark,
-              groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode,
-            ),
-            RadioListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 0),
-              title: Text('Tema atual do sistema'),
-              value: ThemeMode.system,
-              groupValue: preferences.themeMode,
-              onChanged: preferences.setThemeMode,
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ],
         ),
