@@ -34,8 +34,13 @@ class SettingsScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    CircleAvatar(
+                      child: Text(user.name.substring(0, 1)),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -50,6 +55,7 @@ class SettingsScreen extends StatelessWidget {
                         Text(user.email),
                       ],
                     ),
+                    Spacer(),
                     IconButton(
                       icon: Icon(Icons.logout),
                       onPressed: () {

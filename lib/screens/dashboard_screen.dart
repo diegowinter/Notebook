@@ -94,7 +94,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           IconButton(
             icon: CircleAvatar(
-              child: Text(user.email.substring(0, 1)),
+              child: Text(user.name.substring(0, 1)),
             ),
             tooltip: 'Meu perfil',
             onPressed: () =>
