@@ -159,6 +159,7 @@ class User with ChangeNotifier {
       );
 
       Storage.saveMap('userData', {
+        'name': _name,
         'id': _id,
         'email': _email,
         'token': _token,
@@ -183,6 +184,7 @@ class User with ChangeNotifier {
   }
 
   void logout() {
+    _name = '';
     _id = '';
     _email = '';
     _token = '';
