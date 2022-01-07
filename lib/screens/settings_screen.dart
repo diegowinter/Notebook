@@ -62,8 +62,18 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey[800]
+                    : Colors.grey[300],
                 borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 10),
@@ -103,8 +113,18 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey[800]
+                    : Colors.grey[300],
                 borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
             ),
           ],

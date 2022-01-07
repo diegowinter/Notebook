@@ -73,7 +73,7 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
       appBar: AppBar(
         title: displayingPage.pageId.isEmpty
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     displayingPage.title.isEmpty
@@ -109,7 +109,7 @@ class _PageViewerScreenState extends State<PageViewerScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-        centerTitle: true,
+        // centerTitle: true,
         actions: displayingPage.pageId.isEmpty
             ? []
             : [

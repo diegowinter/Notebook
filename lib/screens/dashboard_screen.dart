@@ -208,7 +208,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ],
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.grey[800],
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey[800]
+                              : Colors.grey[300],
                           borderRadius: BorderRadius.circular(5),
                           boxShadow: [
                             BoxShadow(

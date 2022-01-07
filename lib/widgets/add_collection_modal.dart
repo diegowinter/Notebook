@@ -110,7 +110,7 @@ class _AddCollectionModalState extends State<AddCollectionModal> {
                     SizedBox(height: 10),
                     Text(
                       widget.mode == Mode.CREATE
-                          ? 'Adicionando...'
+                          ? 'Criando caderno...'
                           : 'Salvando alterações...',
                     )
                   ],
@@ -128,7 +128,7 @@ class _AddCollectionModalState extends State<AddCollectionModal> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Como a coleção vai se chamar?',
+                      'Como o caderno vai se chamar?',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -141,7 +141,7 @@ class _AddCollectionModalState extends State<AddCollectionModal> {
                         children: [
                           CustomTextFormField(
                             controller: _nameController,
-                            hint: 'Nome da coleção',
+                            hint: 'Nome do caderno',
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return 'O nome não pode ser vazio.';
@@ -156,7 +156,7 @@ class _AddCollectionModalState extends State<AddCollectionModal> {
                           SizedBox(height: 10),
                           CustomTextFormField(
                             controller: _descriptionController,
-                            hint: 'Descrição da coleção',
+                            hint: 'Descrição do caderno',
                             validator: (value) {
                               if (value!.trim().isEmpty) {
                                 return 'A descrição não pode ser vazia.';
