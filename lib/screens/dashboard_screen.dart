@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/collections.dart';
@@ -8,6 +9,7 @@ import '../utils/dialogs.dart';
 import '../utils/mode.dart';
 import '../widgets/add_collection_modal.dart';
 import '../widgets/empty_list_message.dart';
+import 'collection_screen.dart';
 
 enum ItemOptions {
   Edit,
@@ -137,9 +139,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (ctx, index) => GestureDetector(
-                      onTap: () => Navigator.of(context).pushNamed(
-                        AppRoutes.COLLECTION,
-                        arguments: collections.collections[index].id,
+                      // onTap: () => Navigator.of(context).pushNamed(
+                      //   AppRoutes.COLLECTION,
+                      //   arguments: collections.collections[index].id,
+                      // ),
+                      onTap: () => Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: CollectionScreen(
+                              collectionId: collections.collections[index].id),
+                        ),
                       ),
                       child: Container(
                         padding: EdgeInsets.all(10),

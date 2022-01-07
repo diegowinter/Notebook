@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/screens/page_viewer_screen.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/collections.dart';
@@ -185,12 +187,19 @@ class CollectionScreen extends StatelessWidget {
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (ctx, index) => GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRoutes.PAGE_VIEWER,
-                          arguments: pages.pages[index],
-                        );
-                      },
+                      // onTap: () {
+                      //   Navigator.of(context).pushNamed(
+                      //     AppRoutes.PAGE_VIEWER,
+                      //     arguments: pages.pages[index],
+                      //   );
+                      // },
+                      onTap: () => Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: PageViewerScreen(pages.pages[index]),
+                        ),
+                      ),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: Column(
