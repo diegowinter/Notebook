@@ -92,7 +92,7 @@ class CollectionScreen extends StatelessWidget {
           tooltip: 'Voltar',
         ),
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               collections.getCollectionTitle(collectionId),
@@ -104,7 +104,7 @@ class CollectionScreen extends StatelessWidget {
             )
           ],
         ),
-        centerTitle: true,
+        // centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -121,7 +121,7 @@ class CollectionScreen extends StatelessWidget {
           ),
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
-            tooltip: 'Opções da coleção',
+            tooltip: 'Opções do caderno',
             onSelected: (value) {
               value == ItemOptions.Edit
                   ? _editCollection(context, collectionId)
@@ -133,7 +133,7 @@ class CollectionScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.edit),
                     SizedBox(width: 20),
-                    Text('Editar coleção'),
+                    Text('Editar caderno'),
                   ],
                 ),
                 value: ItemOptions.Edit,
@@ -143,7 +143,7 @@ class CollectionScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.delete),
                     SizedBox(width: 20),
-                    Text('Excluir coleção'),
+                    Text('Excluir caderno'),
                   ],
                 ),
                 value: ItemOptions.Delete,
@@ -172,59 +172,91 @@ class CollectionScreen extends StatelessWidget {
                 }
                 return RefreshIndicator(
                   onRefresh: () => _refreshPages(context, collectionId),
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
+                  child: GridView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 3, 16, 16),
                     itemCount: pages.pagesCount,
-                    itemBuilder: (ctx, index) => Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: queryData.size.width > 1000
-                            ? ((queryData.size.width - 1000) / 2) + 16
-                            : 16,
-                      ),
-                      child: ListTile(
-                        leading: Container(
-                          height: double.infinity,
-                          child: Icon(Icons.article),
-                        ),
-                        title: Text(pages.pages[index].title),
-                        trailing: PopupMenuButton(
-                          icon: Icon(Icons.more_vert),
-                          tooltip: 'Opções da página',
-                          onSelected: (value) {
-                            value == ItemOptions.Edit
-                                ? _editPage(context, pages.pages[index])
-                                : _deletePage(
-                                    context, pages.pages[index].pageId);
-                          },
-                          itemBuilder: (_) => [
-                            PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.edit),
-                                  SizedBox(width: 20),
-                                  Text('Editar página'),
+                    physics: BouncingScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 2 / 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemBuilder: (ctx, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          AppRoutes.PAGE_VIEWER,
+                          arguments: pages.pages[index],
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: PopupMenuButton(
+                                // icon: Icon(Icons.more_vert),
+                                child: Container(
+                                  width: 48,
+                                  height: 36,
+                                  alignment: Alignment.topRight,
+                                  child: Icon(Icons.more_horiz),
+                                ),
+                                tooltip: 'Opções da página',
+                                onSelected: (value) {
+                                  value == ItemOptions.Edit
+                                      ? _editPage(context, pages.pages[index])
+                                      : _deletePage(
+                                          context, pages.pages[index].pageId);
+                                },
+                                itemBuilder: (_) => [
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.edit),
+                                        SizedBox(width: 20),
+                                        Text('Editar página'),
+                                      ],
+                                    ),
+                                    value: ItemOptions.Edit,
+                                  ),
+                                  PopupMenuItem(
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.delete),
+                                        SizedBox(width: 20),
+                                        Text('Excluir página'),
+                                      ],
+                                    ),
+                                    value: ItemOptions.Delete,
+                                  ),
                                 ],
                               ),
-                              value: ItemOptions.Edit,
                             ),
-                            PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.delete),
-                                  SizedBox(width: 20),
-                                  Text('Excluir página'),
-                                ],
+                            Text(
+                              pages.pages[index].title,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                              value: ItemOptions.Delete,
                             ),
                           ],
                         ),
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            AppRoutes.PAGE_VIEWER,
-                            arguments: pages.pages[index],
-                          );
-                        },
+                        decoration: BoxDecoration(
+                          color: Colors.grey[800],
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
