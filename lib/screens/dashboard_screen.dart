@@ -127,7 +127,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: GridView.builder(
                     padding: const EdgeInsets.fromLTRB(16, 3, 16, 16),
                     itemCount: collections.itemsCount,
-                    physics: BouncingScrollPhysics(),
+                    physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: queryData.size.width ~/ 190,
                       childAspectRatio: 2 / 3,
