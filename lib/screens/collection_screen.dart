@@ -177,7 +177,7 @@ class CollectionScreen extends StatelessWidget {
                     itemCount: pages.pagesCount,
                     physics: BouncingScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount: queryData.size.width ~/ 190,
                       childAspectRatio: 2 / 3,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
