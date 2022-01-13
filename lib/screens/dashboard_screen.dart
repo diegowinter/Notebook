@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notebook/widgets/list_skeleton.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -111,7 +112,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircularProgressIndicator(),
+                // child: CircularProgressIndicator(),
+                child: ListSkeleton(),
               );
             }
             return Consumer<Collections>(
