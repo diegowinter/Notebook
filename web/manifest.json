@@ -1,11 +1,11 @@
 {
-    "name": "notebook",
-    "short_name": "notebook",
+    "name": "Notebook",
+    "short_name": "Notebook",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Create notebooks for your annotations.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
