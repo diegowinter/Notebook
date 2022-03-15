@@ -1,0 +1,4 @@
+enum SkeletonType {
+  DASHBOARD,
+  COLLECTION,
+}

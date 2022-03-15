@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notebook/screens/page_viewer_screen.dart';
+import 'package:notebook/utils/skeleton_type.dart';
 import 'package:notebook/widgets/list_skeleton.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -162,7 +163,7 @@ class CollectionScreen extends StatelessWidget {
           builder: (ctx, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: ListSkeleton(),
+                child: ListSkeleton(skeletonType: SkeletonType.COLLECTION),
               );
             }
             return Consumer<Pages>(
